@@ -1,0 +1,25 @@
+{
+  "name": "walkweb/portal.loc",
+  "description": "Web Portal DDD models",
+  "authors": [
+    {
+      "name": "WalkWeb",
+      "email": "av18775@list.ru"
+    }
+  ],
+  "require": {
+    "ext-mysqli": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Portal\\": "src/Portal/",
+      "Character\\": "src/Character/",
+      "Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.4"
+  }
+}

@@ -1,0 +1,13 @@
+/vendor/
+.idea
+/public/images/upload/
+
+config.local.php
+config.test.php
+.phpunit.result.cache
+/var/
+/cache/html/
+/cache/sql/
+
+# result code coverage (php vendor/bin/phpunit --coverage-html html)
+html/
