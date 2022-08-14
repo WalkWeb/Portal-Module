@@ -2,42 +2,42 @@
 
 declare(strict_types=1);
 
-namespace Tests\src\Portal\Account\Status;
+namespace Tests\src\Portal\Account\Group;
 
 use Portal\Account\AccountException;
-use Portal\Account\Status\AccountStatus;
+use Portal\Account\Group\AccountGroup;
 use Tests\AbstractUnitTest;
 
-class AccountStatusTest extends AbstractUnitTest
+class AccountGroupTest extends AbstractUnitTest
 {
     /**
-     * Тест на успешное создание статуса аккаунта
+     * Тест на успешное создание группы аккаунта
      *
      * @dataProvider successDataProvider
      * @param int $id
      * @param string $name
      * @throws AccountException
      */
-    public function testAccountStatusCreateSuccess(int $id, string $name): void
+    public function testAccountGroupCreateSuccess(int $id, string $name): void
     {
-        $status = new AccountStatus($id);
+        $status = new AccountGroup($id);
 
         self::assertEquals($id, $status->getId());
         self::assertEquals($name, $status->getName());
     }
 
     /**
-     * Тест на ситуацию, когда передан неизвестный id статуса аккаунта
+     * Тест на ситуацию, когда передан неизвестный id группы аккаунта
      *
      * @dataProvider failDataProvider
      * @param int $id
      * @param string $error
      */
-    public function testAccountStatusCreateFail(int $id, string $error): void
+    public function testAccountGroupCreateFail(int $id, string $error): void
     {
         $this->expectException(AccountException::class);
         $this->expectExceptionMessage($error);
-        new AccountStatus($id);
+        new AccountGroup($id);
     }
 
     /**
@@ -47,12 +47,20 @@ class AccountStatusTest extends AbstractUnitTest
     {
         return [
             [
-                1,
-                'Active',
+                10,
+                'User',
             ],
             [
-                2,
-                'Blocked',
+                20,
+                'Moderator',
+            ],
+            [
+                31,
+                'Admin',
+            ],
+            [
+                30,
+                'Main Admin',
             ],
         ];
     }
@@ -64,8 +72,8 @@ class AccountStatusTest extends AbstractUnitTest
     {
         return [
             [
-                33,
-                AccountException::UNKNOWN_ACCOUNT_STATUS_ID . ': 33',
+                77,
+                AccountException::UNKNOWN_ACCOUNT_GROUP_ID . ': 77',
             ],
         ];
     }
