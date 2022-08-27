@@ -6,6 +6,12 @@ namespace Portal\Account\Carma;
 
 interface CarmaInterface
 {
+    public const ACCOUNT_ID_MIN_LENGTH = 5;
+    public const ACCOUNT_ID_MAX_LENGTH = 36;
+
+    public const MIN_CARMA = -100000000;
+    public const MAX_CARMA = 100000000;
+
     /**
      * Возвращает id аккаунта, к которому относится данная карма
      *
