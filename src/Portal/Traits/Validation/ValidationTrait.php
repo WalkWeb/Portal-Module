@@ -55,6 +55,38 @@ trait ValidationTrait
     }
 
     /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return array
+     * @throws ValidationException
+     */
+    protected static function array(array $data, string $filed, string $error): array
+    {
+        if (!array_key_exists($filed, $data) || !is_array($data[$filed])) {
+            throw new ValidationException($error);
+        }
+
+        return $data[$filed];
+    }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return bool
+     * @throws ValidationException
+     */
+    protected static function bool(array $data, string $filed, string $error): bool
+    {
+        if (!array_key_exists($filed, $data) || !is_bool($data[$filed])) {
+            throw new ValidationException($error);
+        }
+
+        return $data[$filed];
+    }
+
+    /**
      * @param int $value
      * @param int $min
      * @param int $max
