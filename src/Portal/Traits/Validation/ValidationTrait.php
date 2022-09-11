@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace Portal\Traits\Validation;
 
+use DateTime;
+use DateTimeInterface;
+use Exception;
+
 trait ValidationTrait
 {
     /**
@@ -120,5 +124,27 @@ trait ValidationTrait
         }
 
         return $string;
+    }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return DateTimeInterface
+     * @throws ValidationException
+     */
+    protected static function date(array $data, string $filed, string $error): DateTimeInterface
+    {
+        if (!array_key_exists($filed, $data) || !is_string($data[$filed])) {
+            throw new ValidationException($error);
+        }
+
+        try {
+            $createdAt = new DateTime($data[$filed]);
+        } catch (Exception $e) {
+            throw new ValidationException($error);
+        }
+
+        return $createdAt;
     }
 }
