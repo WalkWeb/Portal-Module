@@ -7,6 +7,7 @@ namespace Portal\Auth;
 use Portal\Account\ChatStatus\ChatStatusInterface;
 use Portal\Account\Energy\EnergyInterface;
 use Portal\Account\Group\AccountGroupInterface;
+use Portal\Account\Notice\NoticeCollection;
 use Portal\Account\Status\AccountStatusInterface;
 
 /**
@@ -72,4 +73,11 @@ interface AuthInterface
      * @return bool
      */
     public function isCanLike(): bool;
+
+    /**
+     * Возвращает уведомления пользователя, которые необходимо отобразить
+     *
+     * @return NoticeCollection
+     */
+    public function getNotices(): NoticeCollection;
 }

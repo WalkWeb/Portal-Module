@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Tests\src\Portal\Auth;
 
 use Exception;
-use Portal\Account\AccountException;
 use Portal\Account\ChatStatus\AccountChatStatus;
 use Portal\Account\Energy\EnergyFactory;
 use Portal\Account\Group\AccountGroup;
+use Portal\Account\Notice\NoticeFactory;
 use Portal\Account\Status\AccountStatus;
 use Portal\Auth\AuthException;
 use Portal\Auth\AuthFactory;
-use Portal\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
 class AuthFactoryTest extends AbstractUnitTest
@@ -22,8 +21,7 @@ class AuthFactoryTest extends AbstractUnitTest
      *
      * @dataProvider successDataProvider
      * @param array $data
-     * @throws ValidationException
-     * @throws AccountException
+     * @throws Exception
      */
     public function testAuthFactoryCreateSuccess(array $data): void
     {
@@ -48,6 +46,15 @@ class AuthFactoryTest extends AbstractUnitTest
         self::assertEquals($exceptedEnergy->getEnergyWeight(), $auth->getEnergy()->getEnergyWeight());
         self::assertEquals($exceptedEnergy->getRestoreWeight(), $auth->getEnergy()->getRestoreWeight());
         self::assertEquals($exceptedEnergy->isUpdated(), $auth->getEnergy()->isUpdated());
+
+        self::assertSameSize($data['notices'], $auth->getNotices());
+
+        foreach ($auth->getNotices() as $i => $notice) {
+            self::assertEquals(
+                $this->getNoticeFactory()->create($data['notices'][$i]),
+                $notice
+            );
+        }
     }
 
     /**
@@ -88,6 +95,24 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [
+                        [
+                            'id'         => '7d9593ce-b4c0-483f-a8ac-df0f021cf8ce',
+                            'type'       => 1,
+                            'account_id' => 'f40647f9-3ed7-4251-9662-94189df0eb25',
+                            'message'    => 'message #1',
+                            'view'       => false,
+                            'created_at' => '2019-08-12 14:00:00',
+                        ],
+                        [
+                            'id'         => 'cede1b4e-787b-4f9a-b005-786599990f9c',
+                            'type'       => 2,
+                            'account_id' => 'f40647f9-3ed7-4251-9662-94189df0eb25',
+                            'message'    => 'message #2',
+                            'view'       => false,
+                            'created_at' => '2019-08-18 18:50:00',
+                        ],
+                    ],
                 ],
             ],
         ];
@@ -116,6 +141,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ID,
             ],
@@ -137,6 +163,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ID,
             ],
@@ -157,6 +184,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_NAME,
             ],
@@ -178,6 +206,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_NAME,
             ],
@@ -198,6 +227,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_AVATAR,
             ],
@@ -219,6 +249,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_AVATAR,
             ],
@@ -239,6 +270,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ACCOUNT_GROUP_ID,
             ],
@@ -260,6 +292,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ACCOUNT_GROUP_ID,
             ],
@@ -280,6 +313,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ACCOUNT_STATUS_ID,
             ],
@@ -301,18 +335,19 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ACCOUNT_STATUS_ID,
             ],
             [
                 // отсутствует account_chat_status_id
                 [
-                    'id'                     => '68435c80-eb31-4756-a260-a00900e5db9f',
-                    'name'                   => 'AccountName',
-                    'avatar'                 => 'account_avatar.png',
-                    'account_group_id'       => 10,
-                    'account_status_id'      => 1,
-                    'energy'                 => [
+                    'id'                => '68435c80-eb31-4756-a260-a00900e5db9f',
+                    'name'              => 'AccountName',
+                    'avatar'            => 'account_avatar.png',
+                    'account_group_id'  => 10,
+                    'account_status_id' => 1,
+                    'energy'            => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
                         'energy'            => 30,
@@ -320,7 +355,8 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_updated_at' => 1566745426.0000,
                         'energy_residue'    => 10,
                     ],
-                    'can_like'               => true,
+                    'can_like'          => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ACCOUNT_CHAT_STATUS_ID,
             ],
@@ -342,6 +378,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ACCOUNT_CHAT_STATUS_ID,
             ],
@@ -355,6 +392,7 @@ class AuthFactoryTest extends AbstractUnitTest
                     'account_status_id'      => 1,
                     'account_chat_status_id' => 3,
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ENERGY_DATA,
             ],
@@ -369,6 +407,7 @@ class AuthFactoryTest extends AbstractUnitTest
                     'account_chat_status_id' => 3,
                     'energy'                 => 100,
                     'can_like'               => true,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_ENERGY_DATA,
             ],
@@ -389,6 +428,7 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_updated_at' => 1566745426.0000,
                         'energy_residue'    => 10,
                     ],
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_CAN_LIKE,
             ],
@@ -410,8 +450,80 @@ class AuthFactoryTest extends AbstractUnitTest
                         'energy_residue'    => 10,
                     ],
                     'can_like'               => 1,
+                    'notices'                => [],
                 ],
                 AuthException::INVALID_CAN_LIKE,
+            ],
+
+            [
+                // отсутствует notices
+                [
+                    'id'                     => '68435c80-eb31-4756-a260-a00900e5db9f',
+                    'name'                   => 'AccountName',
+                    'avatar'                 => 'account_avatar.png',
+                    'account_group_id'       => 10,
+                    'account_status_id'      => 1,
+                    'account_chat_status_id' => 3,
+                    'energy'                 => [
+                        'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
+                        'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
+                        'energy'            => 30,
+                        'energy_bonus'      => 15,
+                        'energy_updated_at' => 1566745426.0000,
+                        'energy_residue'    => 10,
+                    ],
+                    'can_like'               => true,
+                ],
+                AuthException::INVALID_NOTICES_DATA,
+            ],
+
+            [
+                // notices некорректного типа
+                [
+                    'id'                     => '68435c80-eb31-4756-a260-a00900e5db9f',
+                    'name'                   => 'AccountName',
+                    'avatar'                 => 'account_avatar.png',
+                    'account_group_id'       => 10,
+                    'account_status_id'      => 1,
+                    'account_chat_status_id' => 3,
+                    'energy'                 => [
+                        'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
+                        'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
+                        'energy'            => 30,
+                        'energy_bonus'      => 15,
+                        'energy_updated_at' => 1566745426.0000,
+                        'energy_residue'    => 10,
+                    ],
+                    'can_like'               => true,
+                    'notices'                => 'notices',
+                ],
+                AuthException::INVALID_NOTICES_DATA,
+            ],
+
+            [
+                // notices содержит не-массивы
+                [
+                    'id'                     => '68435c80-eb31-4756-a260-a00900e5db9f',
+                    'name'                   => 'AccountName',
+                    'avatar'                 => 'account_avatar.png',
+                    'account_group_id'       => 10,
+                    'account_status_id'      => 1,
+                    'account_chat_status_id' => 3,
+                    'energy'                 => [
+                        'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
+                        'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
+                        'energy'            => 30,
+                        'energy_bonus'      => 15,
+                        'energy_updated_at' => 1566745426.0000,
+                        'energy_residue'    => 10,
+                    ],
+                    'can_like'               => true,
+                    'notices'                => [
+                        'notice-1',
+                        'notice-2',
+                    ],
+                ],
+                AuthException::INVALID_NOTICE_DATA,
             ],
         ];
     }
@@ -421,7 +533,7 @@ class AuthFactoryTest extends AbstractUnitTest
      */
     private function getFactory(): AuthFactory
     {
-        return new AuthFactory($this->getEnergyFactory());
+        return new AuthFactory($this->getEnergyFactory(), $this->getNoticeFactory());
     }
 
     /**
@@ -430,5 +542,13 @@ class AuthFactoryTest extends AbstractUnitTest
     private function getEnergyFactory(): EnergyFactory
     {
         return new EnergyFactory();
+    }
+
+    /**
+     * @return NoticeFactory
+     */
+    private function getNoticeFactory(): NoticeFactory
+    {
+        return new NoticeFactory();
     }
 }

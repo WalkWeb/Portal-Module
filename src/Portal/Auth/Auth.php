@@ -7,6 +7,7 @@ namespace Portal\Auth;
 use Portal\Account\ChatStatus\ChatStatusInterface;
 use Portal\Account\Energy\EnergyInterface;
 use Portal\Account\Group\AccountGroupInterface;
+use Portal\Account\Notice\NoticeCollection;
 use Portal\Account\Status\AccountStatusInterface;
 
 class Auth implements AuthInterface
@@ -19,6 +20,7 @@ class Auth implements AuthInterface
     private ChatStatusInterface $chatStatus;
     private EnergyInterface $energy;
     private bool $canLike;
+    private NoticeCollection $notices;
 
     public function __construct(
         string $id,
@@ -28,7 +30,8 @@ class Auth implements AuthInterface
         AccountStatusInterface $status,
         ChatStatusInterface $chatStatus,
         EnergyInterface $energy,
-        bool $canLike
+        bool $canLike,
+        NoticeCollection $notices
     )
     {
         $this->id = $id;
@@ -39,6 +42,7 @@ class Auth implements AuthInterface
         $this->chatStatus = $chatStatus;
         $this->energy = $energy;
         $this->canLike = $canLike;
+        $this->notices = $notices;
     }
 
     /**
@@ -103,5 +107,13 @@ class Auth implements AuthInterface
     public function isCanLike(): bool
     {
         return $this->canLike;
+    }
+
+    /**
+     * @return NoticeCollection
+     */
+    public function getNotices(): NoticeCollection
+    {
+        return $this->notices;
     }
 }

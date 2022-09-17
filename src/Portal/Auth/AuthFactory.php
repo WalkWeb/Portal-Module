@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Portal\Auth;
 
-use Portal\Account\AccountException;
+use Exception;
 use Portal\Account\ChatStatus\AccountChatStatus;
 use Portal\Account\Energy\EnergyFactory;
 use Portal\Account\Group\AccountGroup;
+use Portal\Account\Notice\NoticeCollection;
+use Portal\Account\Notice\NoticeFactory;
 use Portal\Account\Status\AccountStatus;
-use Portal\Traits\Validation\ValidationException;
 use Portal\Traits\Validation\ValidationTrait;
 
 class AuthFactory
@@ -17,10 +18,12 @@ class AuthFactory
     use ValidationTrait;
 
     private EnergyFactory $energyFactory;
+    private NoticeFactory $noticeFactory;
 
-    public function __construct(EnergyFactory $energyFactory)
+    public function __construct(EnergyFactory $energyFactory, NoticeFactory $noticeFactory)
     {
         $this->energyFactory = $energyFactory;
+        $this->noticeFactory = $noticeFactory;
     }
 
     /**
@@ -28,8 +31,7 @@ class AuthFactory
      *
      * @param array $data
      * @return AuthInterface
-     * @throws ValidationException
-     * @throws AccountException
+     * @throws Exception
      */
     public function create(array $data): AuthInterface
     {
@@ -41,6 +43,17 @@ class AuthFactory
         self::int($data, 'account_chat_status_id', AuthException::INVALID_ACCOUNT_CHAT_STATUS_ID);
         self::array($data, 'energy', AuthException::INVALID_ENERGY_DATA);
         self::bool($data, 'can_like', AuthException::INVALID_CAN_LIKE);
+        self::array($data, 'notices', AuthException::INVALID_NOTICES_DATA);
+
+        $notices = new NoticeCollection();
+
+        foreach ($data['notices'] as $noticeData) {
+            if (!is_array($noticeData)) {
+                throw new AuthException(AuthException::INVALID_NOTICE_DATA);
+            }
+
+            $notices->add($this->noticeFactory->create($noticeData));
+        }
 
         return new Auth(
             $data['id'],
@@ -51,6 +64,7 @@ class AuthFactory
             new AccountChatStatus($data['account_chat_status_id']),
             $this->energyFactory->create($data['energy']),
             $data['can_like'],
+            $notices
         );
     }
 }

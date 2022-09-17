@@ -16,4 +16,6 @@ class AuthException extends Exception
     public const INVALID_ACCOUNT_CHAT_STATUS_ID = 'Incorrect "account_chat_status_id" parameter, it required and type int';
     public const INVALID_ENERGY_DATA            = 'Incorrect "energy" parameter, it required and type array';
     public const INVALID_CAN_LIKE               = 'Incorrect "can_like" parameter, it required and type bool';
+    public const INVALID_NOTICES_DATA           = 'Incorrect "notices" parameter, it required and type array';
+    public const INVALID_NOTICE_DATA            = 'Incorrect notice data, excepted array';
 }

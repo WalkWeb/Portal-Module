@@ -8,6 +8,7 @@ use Portal\Account\AccountException;
 use Portal\Account\ChatStatus\AccountChatStatus;
 use Portal\Account\Energy\Energy;
 use Portal\Account\Group\AccountGroup;
+use Portal\Account\Notice\NoticeCollection;
 use Portal\Account\Status\AccountStatus;
 use Portal\Auth\Auth;
 use Tests\AbstractUnitTest;
@@ -37,8 +38,9 @@ class AuthTest extends AbstractUnitTest
             0
         );
         $canLike = true;
+        $notices = new NoticeCollection();
 
-        $auth = new Auth($id, $name, $avatar, $group, $status, $chatStatus, $energy, $canLike);
+        $auth = new Auth($id, $name, $avatar, $group, $status, $chatStatus, $energy, $canLike, $notices);
 
         self::assertEquals($id, $auth->getId());
         self::assertEquals($name, $auth->getName());
