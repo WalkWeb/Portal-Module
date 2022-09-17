@@ -31,12 +31,17 @@
 
 План основных моделей:
 
-- [ ] Auth
 - [ ] Account
-    - [ ] Carma
-- [ ] Energy
-- [ ] LoadImage
-- [ ] Notice
+    - [x] Carma 
+    - [x] ChatStatus
+    - [x] Energy
+    - [x] Floor
+    - [x] Group
+    - [x] Notice
+    - [x] Status
+    - [x] Upload
+- [x] Auth
+- [x] Container
 - [ ] Post
     - [ ] Comment
 - [ ] Chat
