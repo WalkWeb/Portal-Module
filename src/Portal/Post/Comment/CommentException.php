@@ -16,4 +16,5 @@ class CommentException extends Exception
     public const INVALID_RATING        = 'Incorrect "rating" parameter, it required and type int';
     public const INVALID_CREATED_AT    = 'Incorrect "created_at" parameter, it required and date in type string';
     public const INVALID_UPDATED_AT    = 'Incorrect "updated_at" parameter, it required and date in type string or null';
+    public const ALREADY_EXIST         = 'CommentCollection: comment to be added already exists';
 }

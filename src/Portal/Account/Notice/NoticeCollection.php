@@ -8,6 +8,8 @@ use Countable;
 use Iterator;
 use Portal\Traits\CollectionTrait;
 
+// TODO Добавить проверку на дубли
+
 class NoticeCollection implements Iterator, Countable
 {
     use CollectionTrait;

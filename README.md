@@ -43,7 +43,7 @@
 - [x] Auth
 - [x] Container
 - [ ] Post
-    - [ ] Comment
+    - [x] Comment
     - [ ] Tag
 - [ ] Chat
     - [ ] Channel
