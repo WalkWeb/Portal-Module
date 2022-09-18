@@ -49,11 +49,13 @@ class AuthFactoryTest extends AbstractUnitTest
 
         self::assertSameSize($data['notices'], $auth->getNotices());
 
-        foreach ($auth->getNotices() as $i => $notice) {
+        $i = 0;
+        foreach ($auth->getNotices() as $notice) {
             self::assertEquals(
                 $this->getNoticeFactory()->create($data['notices'][$i]),
                 $notice
             );
+            $i++;
         }
     }
 

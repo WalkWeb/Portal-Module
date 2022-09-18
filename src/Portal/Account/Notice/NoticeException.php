@@ -15,4 +15,5 @@ class NoticeException extends Exception
     public const INVALID_MESSAGE    = 'Incorrect "message" parameter, it required and type string';
     public const INVALID_VIEW       = 'Incorrect "view" parameter, it required and type bool';
     public const INVALID_CREATED_AT = 'Incorrect "created_at" parameter, it required and type string date format';
+    public const ALREADY_EXIST      = 'NoticeException: notice to be added already exists';
 }

@@ -8,8 +8,6 @@ use Countable;
 use Iterator;
 use Portal\Traits\CollectionTrait;
 
-// TODO Добавить проверку на дубли
-
 class NoticeCollection implements Iterator, Countable
 {
     use CollectionTrait;
@@ -19,9 +17,17 @@ class NoticeCollection implements Iterator, Countable
      */
     private array $elements = [];
 
+    /**
+     * @param NoticeInterface $notice
+     * @throws NoticeException
+     */
     public function add(NoticeInterface $notice): void
     {
-        $this->elements[] = $notice;
+        if (array_key_exists($notice->getId(), $this->elements)) {
+            throw new NoticeException(NoticeException::ALREADY_EXIST);
+        }
+
+        $this->elements[$notice->getId()] = $notice;
     }
 
     public function current(): NoticeInterface

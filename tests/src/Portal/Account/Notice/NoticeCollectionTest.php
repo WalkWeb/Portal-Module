@@ -13,9 +13,11 @@ use Tests\AbstractUnitTest;
 class NoticeCollectionTest extends AbstractUnitTest
 {
     /**
+     * Тест на успешное создание NoticeCollection
+     *
      * @throws NoticeException
      */
-    public function testNoticeCollection(): void
+    public function testNoticeCollectionCreateSuccess(): void
     {
         $collection = new NoticeCollection();
 
@@ -44,13 +46,43 @@ class NoticeCollectionTest extends AbstractUnitTest
 
         self::assertCount(2, $collection);
 
-        foreach ($collection as $i => $notice) {
+        $i = 0;
+        foreach ($collection as $notice) {
             if ($i === 0) {
                 self::assertEquals($notice, $notice1);
             }
             if ($i === 1) {
                 self::assertEquals($notice, $notice2);
             }
+            $i++;
         }
+
+        // Эта проверка добавлена только для покрытия тестами метода key()
+        self::assertNull($collection->key());
+    }
+
+    /**
+     * Тест на ситуацию, когда в коллекцию добавляется уведомление, которое в ней уже существует
+     *
+     * @throws NoticeException
+     */
+    public function testNoticeCollectionDoubleNotice(): void
+    {
+        $collection = new NoticeCollection();
+
+        $notice = new Notice(
+            'd79f1191-d486-46b5-9624-e4a75bdaeeaf',
+            1,
+            '3a08a6c4-ebca-4444-bff5-0eac1634fa15',
+            'Notice message #1',
+            false,
+            new DateTime('2019-08-12 14:00:00')
+        );
+
+        $collection->add($notice);
+
+        $this->expectException(NoticeException::class);
+        $this->expectExceptionMessage(NoticeException::ALREADY_EXIST);
+        $collection->add($notice);
     }
 }
