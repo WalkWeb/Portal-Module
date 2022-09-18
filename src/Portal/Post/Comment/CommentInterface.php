@@ -8,6 +8,12 @@ use DateTimeInterface;
 
 interface CommentInterface
 {
+    // Минимальная длина комментария
+    public const MIN_LENGTH = 2;
+
+    // Максимальная длина комментария
+    public const MAX_LENGTH = 2000;
+
     /**
      * Возвращает ID комментария
      *

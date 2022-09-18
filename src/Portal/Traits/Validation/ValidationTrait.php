@@ -140,11 +140,37 @@ trait ValidationTrait
         }
 
         try {
-            $createdAt = new DateTime($data[$filed]);
+            $date = new DateTime($data[$filed]);
         } catch (Exception $e) {
             throw new ValidationException($error);
         }
 
-        return $createdAt;
+        return $date;
+    }
+
+    /**
+     * @param array $data
+     * @param string $filed
+     * @param string $error
+     * @return DateTimeInterface|null
+     * @throws ValidationException
+     */
+    protected static function dateOrNull(array $data, string $filed, string $error): ?DateTimeInterface
+    {
+        if (!array_key_exists($filed, $data) || (!is_string($data[$filed]) && !is_null($data[$filed]))) {
+            throw new ValidationException($error);
+        }
+
+        if (is_null($data[$filed])) {
+            return null;
+        }
+
+        try {
+            $date = new DateTime($data[$filed]);
+        } catch (Exception $e) {
+            throw new ValidationException($error);
+        }
+
+        return $date;
     }
 }

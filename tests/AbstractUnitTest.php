@@ -9,6 +9,8 @@ use PHPUnit\Framework\TestCase;
 
 abstract class AbstractUnitTest extends TestCase
 {
+    protected const DATE_FORMAT = 'Y-m-d H:i:s';
+
     /**
      * @param int $length
      * @return string

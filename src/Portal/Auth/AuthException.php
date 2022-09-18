@@ -8,6 +8,7 @@ use Exception;
 
 class AuthException extends Exception
 {
+    // TODO string id
     public const INVALID_ID                     = 'Incorrect "id" parameter, it required and type int';
     public const INVALID_NAME                   = 'Incorrect "name" parameter, it required and type string';
     public const INVALID_AVATAR                 = 'Incorrect "avatar" parameter, it required and type string';
