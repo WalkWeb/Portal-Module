@@ -1,0 +1,30 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\src\Portal\Post\Tag;
+
+use Portal\Post\Tag\Tag;
+use Tests\AbstractUnitTest;
+
+class TagTest extends AbstractUnitTest
+{
+    public function testTagCreate(): void
+    {
+        $id = '4f289da9-e9bf-4744-9a39-7c66b36734b4';
+        $name = 'Программирование';
+        $slug = 'programmirovaniye';
+        $icon = 'icon.png';
+        $previewPostId = '616b33e4-4700-4a8f-b648-76f2b5ec854c';
+        $approved = true;
+
+        $tag = new Tag($id, $name, $slug, $icon, $previewPostId, $approved);
+
+        self::assertEquals($id, $tag->getId());
+        self::assertEquals($name, $tag->getName());
+        self::assertEquals($slug, $tag->getSlug());
+        self::assertEquals($icon, $tag->getIcon());
+        self::assertEquals($previewPostId, $tag->getPreviewPostId());
+        self::assertEquals($approved, $tag->isApproved());
+    }
+}
