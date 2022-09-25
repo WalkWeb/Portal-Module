@@ -21,7 +21,7 @@ interface TagInterface
     public function getName(): string;
 
     /**
-     * Возвращает транскрипцию названия тега
+     * Возвращает транслитерацию названия тега
      *
      * @return string
      */

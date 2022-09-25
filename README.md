@@ -42,9 +42,10 @@
     - [x] Upload
 - [x] Auth
 - [x] Container
-- [ ] Post
+- [x] Post
+    - [x] Author
     - [x] Comment
-    - [ ] Tag
+    - [x] Tag
 - [ ] Chat
     - [ ] Channel
     - [ ] Message
