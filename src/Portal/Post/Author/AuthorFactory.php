@@ -1,0 +1,34 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Portal\Post\Author;
+
+use Portal\Account\AccountException;
+use Portal\Account\Status\AccountStatus;
+use Portal\Traits\Validation\ValidationException;
+use Portal\Traits\Validation\ValidationTrait;
+
+class AuthorFactory
+{
+    use ValidationTrait;
+
+    /**
+     * Создает объект Author на основе массива с данными
+     *
+     * @param array $data
+     * @return AuthorInterface
+     * @throws AccountException
+     * @throws ValidationException
+     */
+    public function create(array $data): AuthorInterface
+    {
+        return new Author(
+            self::string($data, 'id', AuthorException::INVALID_ID),
+            self::string($data, 'name', AuthorException::INVALID_NAME),
+            self::string($data, 'avatar', AuthorException::INVALID_AVATAR),
+            self::int($data, 'level', AuthorException::INVALID_LEVEL),
+            new AccountStatus(self::int($data, 'author_status_id', AuthorException::INVALID_STATUS_ID)),
+        );
+    }
+}
