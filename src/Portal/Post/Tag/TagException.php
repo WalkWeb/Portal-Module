@@ -14,4 +14,5 @@ class TagException extends Exception
     public const INVALID_ICON            = 'Incorrect "icon" parameter, it required and type string';
     public const INVALID_PREVIEW_POST_ID = 'Incorrect "preview_post_id" parameter, it required and type string';
     public const INVALID_APPROVED        = 'Incorrect "approved" parameter, it required and type bool';
+    public const ALREADY_EXIST           = 'TagCollection: tag to be added already exists';
 }

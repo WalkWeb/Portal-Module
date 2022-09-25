@@ -48,10 +48,10 @@ class CommentCollectionTest extends AbstractUnitTest
         $i = 0;
         foreach ($collection as $comment) {
             if ($i === 0) {
-                self::assertEquals($comment, $comment1);
+                self::assertEquals($comment1, $comment);
             }
             if ($i === 1) {
-                self::assertEquals($comment, $comment2);
+                self::assertEquals($comment2, $comment);
             }
             $i++;
         }

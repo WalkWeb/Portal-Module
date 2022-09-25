@@ -49,10 +49,10 @@ class NoticeCollectionTest extends AbstractUnitTest
         $i = 0;
         foreach ($collection as $notice) {
             if ($i === 0) {
-                self::assertEquals($notice, $notice1);
+                self::assertEquals($notice1, $notice);
             }
             if ($i === 1) {
-                self::assertEquals($notice, $notice2);
+                self::assertEquals($notice2, $notice);
             }
             $i++;
         }
