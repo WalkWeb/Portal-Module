@@ -23,10 +23,10 @@ class AuthorFactoryTest extends AbstractUnitTest
     {
         $author = $this->getFactory()->create($data);
 
-        self::assertEquals($data['id'], $author->getId());
-        self::assertEquals($data['name'], $author->getName());
-        self::assertEquals($data['avatar'], $author->getAvatar());
-        self::assertEquals($data['level'], $author->getLevel());
+        self::assertEquals($data['author_id'], $author->getId());
+        self::assertEquals($data['author_name'], $author->getName());
+        self::assertEquals($data['author_avatar'], $author->getAvatar());
+        self::assertEquals($data['author_level'], $author->getLevel());
         self::assertEquals($data['author_status_id'], $author->getStatus()->getId());
     }
 
@@ -53,10 +53,10 @@ class AuthorFactoryTest extends AbstractUnitTest
         return [
             [
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
             ],
@@ -70,85 +70,85 @@ class AuthorFactoryTest extends AbstractUnitTest
     {
         return [
             [
-                // отсутствует id
+                // отсутствует author_id
                 [
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_ID,
             ],
             [
-                // id некорректного типа
+                // author_id некорректного типа
                 [
-                    'id'               => 10,
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'        => 10,
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_ID,
             ],
             [
-                // отсутствует name
+                // отсутствует author_name
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_NAME,
             ],
             [
-                // name некорректного типа
+                // author_name некорректного типа
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => ['Name'],
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => ['Name'],
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_NAME,
             ],
             [
-                // отсутствует avatar
+                // отсутствует author_avatar
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_AVATAR,
             ],
             [
-                // avatar некорректного типа
+                // author_avatar некорректного типа
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => true,
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => true,
+                    'author_level'     => 25,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_AVATAR,
             ],
             [
-                // отсутствует level
+                // отсутствует author_level
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'author_status_id' => 1,
+                    'author_id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'             => 'Name',
+                    'author_avatar'           => 'avatar.png',
+                    'author_author_status_id' => 1,
                 ],
                 AuthorException::INVALID_LEVEL,
             ],
             [
-                // level некорректного типа
+                // author_level некорректного типа
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25.5,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25.5,
                     'author_status_id' => 1,
                 ],
                 AuthorException::INVALID_LEVEL,
@@ -156,20 +156,20 @@ class AuthorFactoryTest extends AbstractUnitTest
             [
                 // отсутствует author_status_id
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'     => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'   => 'Name',
+                    'author_avatar' => 'avatar.png',
+                    'author_level'         => 25,
                 ],
                 AuthorException::INVALID_STATUS_ID,
             ],
             [
                 // author_status_id некорректного типа
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => true,
                 ],
                 AuthorException::INVALID_STATUS_ID,
@@ -177,10 +177,10 @@ class AuthorFactoryTest extends AbstractUnitTest
             [
                 // неизвестный author_status_id
                 [
-                    'id'               => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'name'             => 'Name',
-                    'avatar'           => 'avatar.png',
-                    'level'            => 25,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
                     'author_status_id' => $statusId = 333,
                 ],
                 AccountException::UNKNOWN_ACCOUNT_STATUS_ID . ': ' . $statusId,
