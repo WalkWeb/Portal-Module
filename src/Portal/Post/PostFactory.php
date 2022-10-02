@@ -32,6 +32,23 @@ class PostFactory
      */
     public function create(array $data): PostInterface
     {
+        $title = self::string($data, 'title', PostException::INVALID_TITLE);
+        $content = self::string($data, 'content', PostException::INVALID_CONTENT);
+
+        self::stringMinMaxLength(
+            $title,
+            PostInterface::TITLE_MIN_LENGTH,
+            PostInterface::TITLE_MAX_LENGTH,
+            PostException::INVALID_TITLE_VALUE . PostInterface::TITLE_MIN_LENGTH . '-' . PostInterface::TITLE_MAX_LENGTH
+        );
+
+        self::stringMinMaxLength(
+            $content,
+            PostInterface::CONTENT_MIN_LENGTH,
+            PostInterface::CONTENT_MAX_LENGTH,
+            PostException::INVALID_CONTENT_VALUE . PostInterface::CONTENT_MIN_LENGTH . '-' . PostInterface::CONTENT_MAX_LENGTH
+        );
+
         $tagCollection = new TagCollection();
 
         foreach (self::array($data, 'tags', PostException::INVALID_TAGS) as $tagData) {
@@ -44,9 +61,9 @@ class PostFactory
 
         return new Post(
             self::string($data, 'id', PostException::INVALID_ID),
-            self::string($data, 'title', PostException::INVALID_TITLE),
+            $title,
             self::string($data, 'slug', PostException::INVALID_SLUG),
-            self::string($data, 'content', PostException::INVALID_CONTENT),
+            $content,
             $this->authorFactory->create($data),
             self::int($data, 'rating', PostException::INVALID_RATING),
             self::int($data, 'comments_count', PostException::INVALID_COMMENTS_COUNT),

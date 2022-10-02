@@ -9,6 +9,7 @@ use Exception;
 use Portal\Post\Author\AuthorFactory;
 use Portal\Post\PostException;
 use Portal\Post\PostFactory;
+use Portal\Post\PostInterface;
 use Portal\Post\Tag\TagCollection;
 use Portal\Post\Tag\TagFactory;
 use Tests\AbstractUnitTest;
@@ -149,6 +150,7 @@ class PostFactoryTest extends AbstractUnitTest
 
     /**
      * @return array
+     * @throws Exception
      */
     public function failDataProvider(): array
     {
@@ -238,6 +240,48 @@ class PostFactoryTest extends AbstractUnitTest
                 ],
                 PostException::INVALID_TITLE,
             ],
+            [
+                // title короче минимальной длины
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => self::generateString(PostInterface::TITLE_MIN_LENGTH - 1),
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TITLE_VALUE . PostInterface::TITLE_MIN_LENGTH . '-' . PostInterface::TITLE_MAX_LENGTH,
+            ],
+            [
+                // title длиннее максимальной длины
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => self::generateString(PostInterface::TITLE_MAX_LENGTH + 1),
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TITLE_VALUE . PostInterface::TITLE_MIN_LENGTH . '-' . PostInterface::TITLE_MAX_LENGTH,
+            ],
 
             // slug
             [
@@ -323,6 +367,48 @@ class PostFactoryTest extends AbstractUnitTest
                     'author_status_id' => 1,
                 ],
                 PostException::INVALID_CONTENT,
+            ],
+            [
+                // content короче минимальной длины
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => self::generateString(PostInterface::CONTENT_MIN_LENGTH - 1),
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CONTENT_VALUE . PostInterface::CONTENT_MIN_LENGTH . '-' . PostInterface::CONTENT_MAX_LENGTH,
+            ],
+            [
+                // content длиннее максимальной длины
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => self::generateString(PostInterface::CONTENT_MAX_LENGTH + 1),
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CONTENT_VALUE . PostInterface::CONTENT_MIN_LENGTH . '-' . PostInterface::CONTENT_MAX_LENGTH,
             ],
 
             // rating

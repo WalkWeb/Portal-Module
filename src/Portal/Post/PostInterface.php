@@ -18,6 +18,11 @@ use Portal\Post\Tag\TagCollection;
  */
 interface PostInterface
 {
+    public const TITLE_MIN_LENGTH   = 2;
+    public const TITLE_MAX_LENGTH   = 80;
+    public const CONTENT_MIN_LENGTH = 2;
+    public const CONTENT_MAX_LENGTH = 65534;
+
     /**
      * Возвращает ID поста
      *
