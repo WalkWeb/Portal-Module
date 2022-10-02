@@ -42,7 +42,7 @@
     - [x] Upload
 - [x] Auth
 - [x] Container
-- [ ] Post
+- [x] Post
     - [x] Author
     - [x] Comment
     - [x] Tag

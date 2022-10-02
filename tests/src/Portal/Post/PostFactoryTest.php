@@ -1,0 +1,692 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\src\Portal\Post;
+
+use DateTime;
+use Exception;
+use Portal\Post\Author\AuthorFactory;
+use Portal\Post\PostException;
+use Portal\Post\PostFactory;
+use Portal\Post\Tag\TagCollection;
+use Portal\Post\Tag\TagFactory;
+use Tests\AbstractUnitTest;
+
+class PostFactoryTest extends AbstractUnitTest
+{
+    /**
+     * Тест на успешное создание объекта поста на основе массива данных
+     *
+     * @dataProvider successDataProvider
+     * @param array $data
+     * @throws Exception
+     */
+    public function testPostFactoryCreateSuccess(array $data): void
+    {
+        $post = $this->getPostFactory()->create($data);
+
+        self::assertEquals($data['id'], $post->getId());
+        self::assertEquals($data['title'], $post->getTitle());
+        self::assertEquals($data['slug'], $post->getSlug());
+        self::assertEquals($data['content'], $post->getContent());
+        self::assertEquals($this->getAuthorFactory()->create($data), $post->getAuthor());
+        self::assertEquals($data['rating'], $post->getRating());
+        self::assertEquals($data['comments_count'], $post->getCommentsCount());
+        self::assertEquals((bool)$data['published'], $post->isPublished());
+        self::assertEquals(new DateTime($data['created_at']), $post->getCreatedAt());
+
+        self::assertEquals($this->createTags($data), $post->getTags());
+        self::assertSameSize($data['tags'], $post->getTags());
+
+        if (!is_null($data['updated_at'])) {
+            self::assertEquals(new DateTime($data['updated_at']), $post->getUpdatedAt());
+        } else {
+            self::assertNull($post->getUpdatedAt());
+        }
+    }
+
+    /**
+     * Тесты на различные варианты невалидных данных
+     *
+     * @dataProvider failDataProvider
+     * @param array $data
+     * @param string $error
+     */
+    public function testPostFactoryCreateFail(array $data, string $error): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage($error);
+        $this->getPostFactory()->create($data);
+    }
+
+    /**
+     * @return array
+     */
+    public function successDataProvider(): array
+    {
+        return [
+            [
+                // Без тегов и updated_at = null
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+            ],
+            [
+                // Без тегов и updated_at != null
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:00:00',
+                    'updated_at'       => '2019-08-15 20:20:00',
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+            ],
+            [
+                // С тегами и updated_at = null
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [
+                        [
+                            'id'              => '83d9fb1c-c417-4528-8745-adfd0af24f2c',
+                            'name'            => 'новости',
+                            'slug'            => 'novosti',
+                            'icon'            => 'icon-1.png',
+                            'preview_post_id' => '9ee22e72-13f3-4675-a612-d28844b43f40',
+                            'approved'        => true,
+                        ],
+                        [
+                            'id'              => '3bf4f5b2-d79c-45c6-b6c3-7f8dee8bf8a5',
+                            'name'            => 'статьи',
+                            'slug'            => 'stati',
+                            'icon'            => 'icon-2.png',
+                            'preview_post_id' => '',
+                            'approved'        => false,
+                        ],
+                    ],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+            ],
+
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function failDataProvider(): array
+    {
+        return [
+            // id
+            [
+                // отсутствует id
+                [
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_ID,
+            ],
+            [
+                // id некорректного типа
+                [
+                    'id'               => 10,
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_ID,
+            ],
+
+            // title
+            [
+                // отсутствует title
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TITLE,
+            ],
+            [
+                // title некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => ['Title'],
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TITLE,
+            ],
+
+            // slug
+            [
+                // отсутствует slug
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_SLUG,
+            ],
+            [
+                // slug некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 10.4,
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_SLUG,
+            ],
+
+            // content
+            [
+                // отсутствует content
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CONTENT,
+            ],
+            [
+                // content некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => false,
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CONTENT,
+            ],
+
+            // rating
+            [
+                // отсутствует rating
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_RATING,
+            ],
+            [
+                // rating некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 'success',
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_RATING,
+            ],
+
+            // comments_count
+            [
+                // отсутствует comments_count
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_COMMENTS_COUNT,
+            ],
+            [
+                // comments_count некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => '3',
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_COMMENTS_COUNT,
+            ],
+
+            // published
+            [
+                // отсутствует published
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_PUBLISHED,
+            ],
+            [
+                // published некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => true, // не смотря на тип bool у объекта, из базы ожидается получить int
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_PUBLISHED,
+            ],
+
+            // created_at
+            [
+                // отсутствует created_at
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CREATED_AT,
+            ],
+            [
+                // created_at некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => [],
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CREATED_AT,
+            ],
+            [
+                // created_at некорректного значения даты
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '9999-99-99 99:99:99',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_CREATED_AT,
+            ],
+
+            // updated_at
+            [
+                // отсутствует updated_at
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_UPDATED_AT,
+            ],
+            [
+                // updated_at некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => 'null',
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_UPDATED_AT,
+            ],
+            [
+                // updated_at некорректного значения даты
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => '9999-99-99 99:99:99',
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_UPDATED_AT,
+            ],
+
+            // tags
+            [
+                // отсутствует tags
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TAGS,
+            ],
+            [
+                // tags некорректного типа
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => null,
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TAGS,
+            ],
+            [
+                // tags содержит не массивы
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => 'Title',
+                    'slug'             => 'title-slug',
+                    'content'          => 'Post content',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => ['tag'],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+                PostException::INVALID_TAGS_DATA,
+            ],
+
+            // Проверка валидации параметров автора сделана в AuthorFactoryTest
+        ];
+    }
+
+    /**
+     * @return PostFactory
+     */
+    private function getPostFactory(): PostFactory
+    {
+        return new PostFactory($this->getAuthorFactory(), $this->getTagFactory());
+    }
+
+    /**
+     * @return AuthorFactory
+     */
+    private function getAuthorFactory(): AuthorFactory
+    {
+        return new AuthorFactory();
+    }
+
+    /**
+     * @return TagFactory
+     */
+    private function getTagFactory(): TagFactory
+    {
+        return new TagFactory();
+    }
+
+    /**
+     * @param array $data
+     * @return TagCollection
+     * @throws Exception
+     */
+    private function createTags(array $data): TagCollection
+    {
+        $collection = new TagCollection();
+
+        foreach ($data['tags'] as $tagData) {
+            $collection->add($this->getTagFactory()->create($tagData));
+        }
+
+        return $collection;
+    }
+}
