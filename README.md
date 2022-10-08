@@ -47,6 +47,6 @@
     - [x] Comment
     - [x] Tag
 - [ ] Chat
-    - [ ] ChatUser
+    - [x] ChatUser
     - [ ] Channel
     - [ ] Message
