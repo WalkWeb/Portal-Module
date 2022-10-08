@@ -11,4 +11,5 @@ class ChatUserException extends Exception
     public const INVALID_ID     = 'Incorrect "chat_user_id" parameter, it required and type string';
     public const INVALID_NAME   = 'Incorrect "chat_user_name" parameter, it required and type string';
     public const INVALID_AVATAR = 'Incorrect "chat_user_avatar" parameter, it required and type string';
+    public const ALREADY_EXIST  = 'ChatUserCollection: user to be added already exists';
 }

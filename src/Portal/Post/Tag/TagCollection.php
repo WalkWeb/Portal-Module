@@ -30,6 +30,9 @@ class TagCollection implements Iterator, Countable
         $this->elements[$tag->getId()] = $tag;
     }
 
+    /**
+     * @return TagInterface
+     */
     public function current(): TagInterface
     {
         return current($this->elements);
