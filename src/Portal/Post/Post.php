@@ -66,6 +66,23 @@ class Post implements PostInterface
     }
 
     /**
+     * @param string $title
+     * @throws PostException
+     */
+    public function setTitle(string $title): void
+    {
+        $length = mb_strlen($title);
+
+        if ($length < self::TITLE_MIN_LENGTH || $length > self::TITLE_MAX_LENGTH) {
+            throw new PostException(
+                PostException::INVALID_TITLE_VALUE . self::TITLE_MIN_LENGTH . '-' . self::TITLE_MAX_LENGTH
+            );
+        }
+
+        $this->title = $title;
+    }
+
+    /**
      * @return string
      */
     public function getSlug(): string

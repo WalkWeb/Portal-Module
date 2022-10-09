@@ -38,6 +38,14 @@ interface PostInterface
     public function getTitle(): string;
 
     /**
+     * Устанавливает новый заголовок поста
+     *
+     * @param string $title
+     * @throws PostException
+     */
+    public function setTitle(string $title): void;
+
+    /**
      * Возвращает транслитерацию заголовка поста
      *
      * @return string
