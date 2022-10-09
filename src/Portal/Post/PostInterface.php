@@ -103,6 +103,13 @@ interface PostInterface
     public function getTags(): TagCollection;
 
     /**
+     * Устанавливает новые теги поста
+     *
+     * @param TagCollection $tags
+     */
+    public function setTags(TagCollection $tags): void;
+
+    /**
      * Возвращает дату создания поста
      *
      * @return DateTimeInterface

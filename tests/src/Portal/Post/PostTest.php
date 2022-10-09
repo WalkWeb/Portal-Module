@@ -6,12 +6,12 @@ namespace Tests\src\Portal\Post;
 
 use DateTime;
 use Exception;
-use Portal\Account\AccountException;
 use Portal\Account\Status\AccountStatus;
 use Portal\Post\Author\Author;
 use Portal\Post\Post;
 use Portal\Post\PostException;
 use Portal\Post\PostInterface;
+use Portal\Post\Tag\Tag;
 use Portal\Post\Tag\TagCollection;
 use Tests\AbstractUnitTest;
 
@@ -20,7 +20,7 @@ class PostTest extends AbstractUnitTest
     /**
      * Тест на успешное создание поста
      *
-     * @throws AccountException
+     * @throws Exception
      */
     public function testPostCreateSuccess(): void
     {
@@ -91,8 +91,7 @@ class PostTest extends AbstractUnitTest
      *
      * @dataProvider invalidTitleDataProvider
      * @param string $newTitle
-     * @throws AccountException
-     * @throws PostException
+     * @throws Exception
      */
     public function testPostSetTitleFail(string $newTitle): void
     {
@@ -123,13 +122,41 @@ class PostTest extends AbstractUnitTest
      *
      * @dataProvider invalidContentDataProvider
      * @param string $newContent
-     * @throws AccountException
+     * @throws Exception
      */
     public function testPostSetContentFail(string $newContent): void
     {
         $this->expectException(PostException::class);
         $this->expectExceptionMessage(PostException::INVALID_CONTENT_VALUE . PostInterface::CONTENT_MIN_LENGTH . '-' . PostInterface::CONTENT_MAX_LENGTH);
         $this->createPost()->setContent($newContent);
+    }
+
+    /**
+     * Тест на установку новых тегов поста
+     *
+     * @throws Exception
+     */
+    public function testPostSetTags(): void
+    {
+        $newTags = new TagCollection();
+
+        $newTags->add(new Tag(
+            '16cb7f25-37b6-49d0-bd0d-13cd75bc71f8',
+            'новости',
+            'novosti',
+            'icon-1.png',
+            '59f2a61c-09bb-4187-8cff-f4efa0557a30',
+            true
+        ));
+
+        $post = $this->createPost();
+
+        // Вначале проверяем, что новые теги отличаются от старых
+        self::assertNotSame($newTags, $post->getTags());
+
+        $post->setTags($newTags);
+
+        self::assertEquals($newTags, $post->getTags());
     }
 
     /**
@@ -166,7 +193,7 @@ class PostTest extends AbstractUnitTest
 
     /**
      * @return PostInterface
-     * @throws AccountException
+     * @throws Exception
      */
     private function createPost(): PostInterface
     {

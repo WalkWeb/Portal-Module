@@ -156,6 +156,14 @@ class Post implements PostInterface
     }
 
     /**
+     * @param TagCollection $tags
+     */
+    public function setTags(TagCollection $tags): void
+    {
+        $this->tags = $tags;
+    }
+
+    /**
      * @return DateTimeInterface
      */
     public function getCreatedAt(): DateTimeInterface
