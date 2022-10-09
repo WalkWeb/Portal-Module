@@ -62,7 +62,7 @@ class Post implements PostInterface
      */
     public function getTitle(): string
     {
-        return $this->title;
+        return htmlspecialchars($this->title);
     }
 
     /**
@@ -78,7 +78,7 @@ class Post implements PostInterface
      */
     public function getContent(): string
     {
-        return $this->content;
+        return htmlspecialchars($this->content);
     }
 
     /**

@@ -28,9 +28,9 @@ class PostFactoryTest extends AbstractUnitTest
         $post = $this->getPostFactory()->create($data);
 
         self::assertEquals($data['id'], $post->getId());
-        self::assertEquals($data['title'], $post->getTitle());
+        self::assertEquals(htmlspecialchars($data['title']), $post->getTitle());
         self::assertEquals($data['slug'], $post->getSlug());
-        self::assertEquals($data['content'], $post->getContent());
+        self::assertEquals(htmlspecialchars($data['content']), $post->getContent());
         self::assertEquals($this->getAuthorFactory()->create($data), $post->getAuthor());
         self::assertEquals($data['rating'], $post->getRating());
         self::assertEquals($data['comments_count'], $post->getCommentsCount());
@@ -144,7 +144,26 @@ class PostFactoryTest extends AbstractUnitTest
                     'author_status_id' => 1,
                 ],
             ],
-
+            [
+                // Со спецсимволами в title и content
+                [
+                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
+                    'title'            => '<b>Title</b>',
+                    'slug'             => 'title-slug',
+                    'content'          => '<h1>Post content</h1>',
+                    'rating'           => 10,
+                    'comments_count'   => 3,
+                    'published'        => 1,
+                    'created_at'       => '2019-08-12 19:05:19',
+                    'updated_at'       => null,
+                    'tags'             => [],
+                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
+                    'author_name'      => 'Name',
+                    'author_avatar'    => 'avatar.png',
+                    'author_level'     => 25,
+                    'author_status_id' => 1,
+                ],
+            ],
         ];
     }
 
