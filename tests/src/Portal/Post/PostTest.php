@@ -87,7 +87,7 @@ class PostTest extends AbstractUnitTest
     }
 
     /**
-     * Тесты на ситуации, когда указывается некорректный новый заголовок поста - слишком короткий или слишком длинный
+     * Тест на ситуации, когда указывается некорректный новый заголовок поста - слишком короткий или слишком длинный
      *
      * @dataProvider invalidTitleDataProvider
      * @param string $newTitle
@@ -96,11 +96,40 @@ class PostTest extends AbstractUnitTest
      */
     public function testPostSetTitleFail(string $newTitle): void
     {
-        $post = $this->createPost();
-
         $this->expectException(PostException::class);
         $this->expectExceptionMessage(PostException::INVALID_TITLE_VALUE . PostInterface::TITLE_MIN_LENGTH . '-' . PostInterface::TITLE_MAX_LENGTH);
-        $post->setTitle($newTitle);
+        $this->createPost()->setTitle($newTitle);
+    }
+
+    /**
+     * Тест на установку нового содержимого поста
+     *
+     * @throws Exception
+     */
+    public function testPostSetContentSuccess(): void
+    {
+        $post = $this->createPost();
+
+        // Вначале проверяем, что новый content отличается от старого
+        self::assertNotSame($newContent = 'New Content', $post->getContent());
+
+        $post->setContent($newContent);
+
+        self::assertEquals($newContent, $post->getContent());
+    }
+
+    /**
+     * Тест на ситуации, когда указывается некорректное новое содержимое поста - слишком короткое или слишком длинное
+     *
+     * @dataProvider invalidContentDataProvider
+     * @param string $newContent
+     * @throws AccountException
+     */
+    public function testPostSetContentFail(string $newContent): void
+    {
+        $this->expectException(PostException::class);
+        $this->expectExceptionMessage(PostException::INVALID_CONTENT_VALUE . PostInterface::CONTENT_MIN_LENGTH . '-' . PostInterface::CONTENT_MAX_LENGTH);
+        $this->createPost()->setContent($newContent);
     }
 
     /**
@@ -115,6 +144,22 @@ class PostTest extends AbstractUnitTest
             ],
             [
                 self::generateString(PostInterface::TITLE_MAX_LENGTH + 1),
+            ],
+        ];
+    }
+
+    /**
+     * @return array[]
+     * @throws Exception
+     */
+    public function invalidContentDataProvider(): array
+    {
+        return [
+            [
+                self::generateString(PostInterface::CONTENT_MIN_LENGTH - 1),
+            ],
+            [
+                self::generateString(PostInterface::CONTENT_MAX_LENGTH + 1),
             ],
         ];
     }

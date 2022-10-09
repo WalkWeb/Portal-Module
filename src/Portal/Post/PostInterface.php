@@ -60,6 +60,14 @@ interface PostInterface
     public function getContent(): string;
 
     /**
+     * Устанавливает новый контент поста
+     *
+     * @param string $content
+     * @throws PostException
+     */
+    public function setContent(string $content): void;
+
+    /**
      * Возвращает автора поста
      *
      * @return AuthorInterface

@@ -99,6 +99,23 @@ class Post implements PostInterface
     }
 
     /**
+     * @param string $content
+     * @throws PostException
+     */
+    public function setContent(string $content): void
+    {
+        $length = mb_strlen($content);
+
+        if ($length < self::CONTENT_MIN_LENGTH || $length > self::CONTENT_MAX_LENGTH) {
+            throw new PostException(
+                PostException::INVALID_CONTENT_VALUE . self::CONTENT_MIN_LENGTH . '-' . self::CONTENT_MAX_LENGTH
+            );
+        }
+
+        $this->content = $content;
+    }
+
+    /**
      * @return AuthorInterface
      */
     public function getAuthor(): AuthorInterface
