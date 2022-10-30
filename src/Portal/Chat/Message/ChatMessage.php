@@ -10,15 +10,15 @@ class ChatMessage implements ChatMessageInterface
 {
     private string $id;
     private string $message;
-    private ChatUserInterface $user;
     private string $channelId;
+    private ChatUserInterface $user;
 
-    public function __construct(string $id, string $message, ChatUserInterface $user, string $channelId)
+    public function __construct(string $id, string $message, string $channelId, ChatUserInterface $user)
     {
         $this->id = $id;
         $this->message = $message;
-        $this->user = $user;
         $this->channelId = $channelId;
+        $this->user = $user;
     }
 
     /**
@@ -38,18 +38,18 @@ class ChatMessage implements ChatMessageInterface
     }
 
     /**
-     * @return ChatUserInterface
-     */
-    public function getUser(): ChatUserInterface
-    {
-        return $this->user;
-    }
-
-    /**
      * @return string
      */
     public function getChannelId(): string
     {
         return $this->channelId;
+    }
+
+    /**
+     * @return ChatUserInterface
+     */
+    public function getUser(): ChatUserInterface
+    {
+        return $this->user;
     }
 }
