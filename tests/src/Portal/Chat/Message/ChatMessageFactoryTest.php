@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\src\Portal\Chat\Message;
 
+use Exception;
 use Portal\Chat\Message\ChatMessageException;
 use Portal\Chat\Message\ChatMessageFactory;
+use Portal\Chat\Message\ChatMessageInterface;
 use Portal\Chat\User\ChatUserFactory;
 use Portal\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
@@ -67,7 +69,8 @@ class ChatMessageFactoryTest extends AbstractUnitTest
     }
 
     /**
-     * @return array
+     * @return array[]
+     * @throws Exception
      */
     public function failDataProvider(): array
     {
@@ -117,6 +120,30 @@ class ChatMessageFactoryTest extends AbstractUnitTest
                     'chat_user_avatar' => 'avatar.png',
                 ],
                 ChatMessageException::INVALID_MESSAGE,
+            ],
+            [
+                // chat_message меньше минимальной длины
+                [
+                    'chat_message_id'  => 'f8712d11-4da4-4716-8a64-a5fb28c03c69',
+                    'chat_message'     => self::generateString(ChatMessageInterface::MIN_LENGTH - 1),
+                    'chat_channel_id'  => '55be6800-f204-49f2-aead-82c3bd86cc82',
+                    'chat_user_id'     => 'b8912fda-54ec-4cdf-8693-5b9e52f043c5',
+                    'chat_user_name'   => 'UserName',
+                    'chat_user_avatar' => 'avatar.png',
+                ],
+                ChatMessageException::INVALID_MESSAGE_VALUE . ': ' . ChatMessageInterface::MIN_LENGTH . '-' . ChatMessageInterface::MAX_LENGTH,
+            ],
+            [
+                // chat_message больше максимальной длины
+                [
+                    'chat_message_id'  => 'f8712d11-4da4-4716-8a64-a5fb28c03c69',
+                    'chat_message'     => self::generateString(ChatMessageInterface::MAX_LENGTH + 1),
+                    'chat_channel_id'  => '55be6800-f204-49f2-aead-82c3bd86cc82',
+                    'chat_user_id'     => 'b8912fda-54ec-4cdf-8693-5b9e52f043c5',
+                    'chat_user_name'   => 'UserName',
+                    'chat_user_avatar' => 'avatar.png',
+                ],
+                ChatMessageException::INVALID_MESSAGE_VALUE . ': ' . ChatMessageInterface::MIN_LENGTH . '-' . ChatMessageInterface::MAX_LENGTH,
             ],
             [
                 // Отсутствует chat_channel_id

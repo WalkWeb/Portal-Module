@@ -28,9 +28,18 @@ class ChatMessageFactory
      */
     public function create(array $data): ChatMessageInterface
     {
+        $message = self::string($data, 'chat_message', ChatMessageException::INVALID_MESSAGE);
+
+        self::stringMinMaxLength(
+            $message,
+            ChatMessageInterface::MIN_LENGTH,
+            ChatMessageInterface::MAX_LENGTH,
+            ChatMessageException::INVALID_MESSAGE_VALUE . ': ' . ChatMessageInterface::MIN_LENGTH . '-' . ChatMessageInterface::MAX_LENGTH
+        );
+
         return new ChatMessage(
             self::string($data, 'chat_message_id', ChatMessageException::INVALID_ID),
-            self::string($data, 'chat_message', ChatMessageException::INVALID_MESSAGE),
+            $message,
             self::string($data, 'chat_channel_id', ChatMessageException::INVALID_CHANNEL_ID),
             $this->chatUserFactory->create($data)
         );

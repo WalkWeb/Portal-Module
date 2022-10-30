@@ -8,7 +8,11 @@ use Portal\Chat\User\ChatUserInterface;
 
 interface ChatMessageInterface
 {
-    // TODO min-max message length
+    // Минимальная длина комментария
+    public const MIN_LENGTH = 2;
+
+    // Максимальная длина комментария
+    public const MAX_LENGTH = 500;
 
     /**
      * Возвращает id сообщения чата
