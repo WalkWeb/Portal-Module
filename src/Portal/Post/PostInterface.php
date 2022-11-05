@@ -6,6 +6,7 @@ namespace Portal\Post;
 
 use DateTimeInterface;
 use Portal\Post\Author\AuthorInterface;
+use Portal\Post\Rating\RatingInterface;
 use Portal\Post\Tag\TagCollection;
 
 /**
@@ -75,11 +76,11 @@ interface PostInterface
     public function getAuthor(): AuthorInterface;
 
     /**
-     * Возвращает рейтинг поста
+     * Возвращает параметры рейтинга поста
      *
-     * @return int
+     * @return RatingInterface
      */
-    public function getRating(): int;
+    public function getRating(): RatingInterface;
 
     /**
      * Возвращает количество комментариев поста

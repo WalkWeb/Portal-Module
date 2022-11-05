@@ -6,6 +6,7 @@ namespace Portal\Post;
 
 use Exception;
 use Portal\Post\Author\AuthorFactory;
+use Portal\Post\Rating\RatingFactory;
 use Portal\Post\Tag\TagCollection;
 use Portal\Post\Tag\TagFactory;
 use Portal\Traits\Validation\ValidationTrait;
@@ -16,11 +17,13 @@ class PostFactory
 
     private AuthorFactory $authorFactory;
     private TagFactory $tagFactory;
+    private RatingFactory $ratingFactory;
 
-    public function __construct(AuthorFactory $authorFactory, TagFactory $tagFactory)
+    public function __construct(AuthorFactory $authorFactory, TagFactory $tagFactory, RatingFactory $ratingFactory)
     {
         $this->authorFactory = $authorFactory;
         $this->tagFactory = $tagFactory;
+        $this->ratingFactory = $ratingFactory;
     }
 
     /**
@@ -65,7 +68,7 @@ class PostFactory
             self::string($data, 'slug', PostException::INVALID_SLUG),
             $content,
             $this->authorFactory->create($data),
-            self::int($data, 'rating', PostException::INVALID_RATING),
+            $this->ratingFactory->create($data),
             self::int($data, 'comments_count', PostException::INVALID_COMMENTS_COUNT),
             (bool)self::int($data, 'published', PostException::INVALID_PUBLISHED),
             $tagCollection,

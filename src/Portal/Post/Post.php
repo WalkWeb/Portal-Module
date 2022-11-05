@@ -6,6 +6,7 @@ namespace Portal\Post;
 
 use DateTimeInterface;
 use Portal\Post\Author\AuthorInterface;
+use Portal\Post\Rating\RatingInterface;
 use Portal\Post\Tag\TagCollection;
 
 class Post implements PostInterface
@@ -15,7 +16,7 @@ class Post implements PostInterface
     private string $slug;
     private string $content;
     private AuthorInterface $author;
-    private int $rating;
+    private RatingInterface $rating;
     private int $commentsCount;
     private bool $published;
     private TagCollection $tags;
@@ -28,7 +29,7 @@ class Post implements PostInterface
         string $slug,
         string $content,
         AuthorInterface $author,
-        int $rating,
+        RatingInterface $rating,
         int $commentsCount,
         bool $published,
         TagCollection $collection,
@@ -124,9 +125,9 @@ class Post implements PostInterface
     }
 
     /**
-     * @return int
+     * @return RatingInterface
      */
-    public function getRating(): int
+    public function getRating(): RatingInterface
     {
         return $this->rating;
     }

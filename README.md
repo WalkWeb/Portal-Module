@@ -45,7 +45,7 @@
 - [x] Post
     - [x] Author
     - [x] Comment
-    - [ ] Rating
+    - [x] Rating
     - [x] Tag
 - [ ] Chat
     - [x] ChatUser

@@ -11,6 +11,7 @@ use Portal\Post\Author\Author;
 use Portal\Post\Post;
 use Portal\Post\PostException;
 use Portal\Post\PostInterface;
+use Portal\Post\Rating\Rating;
 use Portal\Post\Tag\Tag;
 use Portal\Post\Tag\TagCollection;
 use Tests\AbstractUnitTest;
@@ -35,7 +36,7 @@ class PostTest extends AbstractUnitTest
             15,
             new AccountStatus(1)
         );
-        $rating = 43;
+        $rating = new Rating(10, 12, -2);
         $commentsCount = 12;
         $published = true;
         $tags = new TagCollection();
@@ -209,7 +210,7 @@ class PostTest extends AbstractUnitTest
                 15,
                 new AccountStatus(1)
             ),
-            0,
+            new Rating(0, 0, 0),
             0,
             false,
             new TagCollection(),

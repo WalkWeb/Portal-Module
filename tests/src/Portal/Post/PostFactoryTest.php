@@ -10,6 +10,7 @@ use Portal\Post\Author\AuthorFactory;
 use Portal\Post\PostException;
 use Portal\Post\PostFactory;
 use Portal\Post\PostInterface;
+use Portal\Post\Rating\RatingFactory;
 use Portal\Post\Tag\TagCollection;
 use Portal\Post\Tag\TagFactory;
 use Tests\AbstractUnitTest;
@@ -32,7 +33,7 @@ class PostFactoryTest extends AbstractUnitTest
         self::assertEquals($data['slug'], $post->getSlug());
         self::assertEquals(htmlspecialchars($data['content']), $post->getContent());
         self::assertEquals($this->getAuthorFactory()->create($data), $post->getAuthor());
-        self::assertEquals($data['rating'], $post->getRating());
+        self::assertEquals($this->getRatingFactory()->create($data), $post->getRating());
         self::assertEquals($data['comments_count'], $post->getCommentsCount());
         self::assertEquals((bool)$data['published'], $post->isPublished());
         self::assertEquals(new DateTime($data['created_at']), $post->getCreatedAt());
@@ -75,6 +76,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -94,7 +97,9 @@ class PostFactoryTest extends AbstractUnitTest
                     'title'            => 'Title',
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
-                    'rating'           => 10,
+                    'rating'           => 5,
+                    'likes'            => 10,
+                    'dislikes'         => -5,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:00:00',
@@ -114,7 +119,9 @@ class PostFactoryTest extends AbstractUnitTest
                     'title'            => 'Title',
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
-                    'rating'           => 10,
+                    'rating'           => -5,
+                    'likes'            => 1,
+                    'dislikes'         => -6,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -151,7 +158,9 @@ class PostFactoryTest extends AbstractUnitTest
                     'title'            => '<b>Title</b>',
                     'slug'             => 'title-slug',
                     'content'          => '<h1>Post content</h1>',
-                    'rating'           => 10,
+                    'rating'           => 0,
+                    'likes'            => 0,
+                    'dislikes'         => 0,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -182,6 +191,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -203,6 +214,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -225,6 +238,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -246,6 +261,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -267,6 +284,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -288,6 +307,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -310,6 +331,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'title'            => 'Title',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -331,6 +354,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 10.4,
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -353,6 +378,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'title'            => 'Title',
                     'slug'             => 'title-slug',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -374,6 +401,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => false,
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -395,6 +424,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => self::generateString(PostInterface::CONTENT_MIN_LENGTH - 1),
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -416,6 +447,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => self::generateString(PostInterface::CONTENT_MAX_LENGTH + 1),
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -430,49 +463,6 @@ class PostFactoryTest extends AbstractUnitTest
                 PostException::INVALID_CONTENT_VALUE . PostInterface::CONTENT_MIN_LENGTH . '-' . PostInterface::CONTENT_MAX_LENGTH,
             ],
 
-            // rating
-            [
-                // отсутствует rating
-                [
-                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
-                    'title'            => 'Title',
-                    'slug'             => 'title-slug',
-                    'content'          => 'Post content',
-                    'comments_count'   => 3,
-                    'published'        => 1,
-                    'created_at'       => '2019-08-12 19:05:19',
-                    'updated_at'       => null,
-                    'tags'             => [],
-                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'author_name'      => 'Name',
-                    'author_avatar'    => 'avatar.png',
-                    'author_level'     => 25,
-                    'author_status_id' => 1,
-                ],
-                PostException::INVALID_RATING,
-            ],
-            [
-                // rating некорректного типа
-                [
-                    'id'               => 'b5d82b2c-6be2-42a0-85c6-821a170c68eb',
-                    'title'            => 'Title',
-                    'slug'             => 'title-slug',
-                    'content'          => 'Post content',
-                    'rating'           => 'success',
-                    'comments_count'   => 3,
-                    'published'        => 1,
-                    'created_at'       => '2019-08-12 19:05:19',
-                    'updated_at'       => null,
-                    'tags'             => [],
-                    'author_id'        => '67ea6431-4523-42ee-bfa0-e302d6447acb',
-                    'author_name'      => 'Name',
-                    'author_avatar'    => 'avatar.png',
-                    'author_level'     => 25,
-                    'author_status_id' => 1,
-                ],
-                PostException::INVALID_RATING,
-            ],
-
             // comments_count
             [
                 // отсутствует comments_count
@@ -482,6 +472,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
                     'updated_at'       => null,
@@ -502,6 +494,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => '3',
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -525,6 +519,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'created_at'       => '2019-08-12 19:05:19',
                     'updated_at'       => null,
@@ -545,6 +541,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => true, // не смотря на тип bool у объекта, из базы ожидается получить int
                     'created_at'       => '2019-08-12 19:05:19',
@@ -568,6 +566,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'updated_at'       => null,
@@ -588,6 +588,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => [],
@@ -609,6 +611,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '9999-99-99 99:99:99',
@@ -632,6 +636,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -652,6 +658,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -673,6 +681,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -696,6 +706,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -716,6 +728,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -737,6 +751,8 @@ class PostFactoryTest extends AbstractUnitTest
                     'slug'             => 'title-slug',
                     'content'          => 'Post content',
                     'rating'           => 10,
+                    'likes'            => 12,
+                    'dislikes'         => -2,
                     'comments_count'   => 3,
                     'published'        => 1,
                     'created_at'       => '2019-08-12 19:05:19',
@@ -760,7 +776,7 @@ class PostFactoryTest extends AbstractUnitTest
      */
     private function getPostFactory(): PostFactory
     {
-        return new PostFactory($this->getAuthorFactory(), $this->getTagFactory());
+        return new PostFactory($this->getAuthorFactory(), $this->getTagFactory(), $this->getRatingFactory());
     }
 
     /**
@@ -777,6 +793,14 @@ class PostFactoryTest extends AbstractUnitTest
     private function getTagFactory(): TagFactory
     {
         return new TagFactory();
+    }
+
+    /**
+     * @return RatingFactory
+     */
+    private function getRatingFactory(): RatingFactory
+    {
+        return new RatingFactory();
     }
 
     /**
