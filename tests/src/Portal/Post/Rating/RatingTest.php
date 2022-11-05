@@ -43,13 +43,13 @@ class RatingTest extends AbstractUnitTest
             ],
             [
                 10,
-                +15,
+                15,
                 -5,
                 RatingInterface::POSITIVE_CLASS_COLOR
             ],
             [
                 -80,
-                +20,
+                20,
                 -100,
                 RatingInterface::NEGATIVE_CLASS_COLOR
             ],
