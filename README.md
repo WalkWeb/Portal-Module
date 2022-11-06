@@ -46,6 +46,7 @@
     - [x] Author
     - [x] Comment
     - [x] Rating
+    - [ ] Status
     - [x] Tag
 - [ ] Chat
     - [x] ChatUser
