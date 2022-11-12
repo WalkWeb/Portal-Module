@@ -11,3 +11,14 @@ config.test.php
 
 # result code coverage (php vendor/bin/phpunit --coverage-html html)
 html/
+
+# files for manual testing
+src/NWFramework/
+controllers/
+middleware/
+migrations/
+models/
+public/
+routes/
+views/
+config.php
