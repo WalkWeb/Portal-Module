@@ -7,6 +7,7 @@ namespace Portal\Post;
 use DateTimeInterface;
 use Portal\Post\Author\AuthorInterface;
 use Portal\Post\Rating\RatingInterface;
+use Portal\Post\Status\StatusInterface;
 use Portal\Post\Tag\TagCollection;
 
 class Post implements PostInterface
@@ -15,6 +16,7 @@ class Post implements PostInterface
     private string $title;
     private string $slug;
     private string $content;
+    private StatusInterface $status;
     private AuthorInterface $author;
     private RatingInterface $rating;
     private int $commentsCount;
@@ -28,6 +30,7 @@ class Post implements PostInterface
         string $title,
         string $slug,
         string $content,
+        StatusInterface $status,
         AuthorInterface $author,
         RatingInterface $rating,
         int $commentsCount,
@@ -41,6 +44,7 @@ class Post implements PostInterface
         $this->title = $title;
         $this->slug = $slug;
         $this->content = $content;
+        $this->status = $status;
         $this->author = $author;
         $this->rating = $rating;
         $this->commentsCount = $commentsCount;
@@ -114,6 +118,14 @@ class Post implements PostInterface
         }
 
         $this->content = $content;
+    }
+
+    /**
+     * @return StatusInterface
+     */
+    public function getStatus(): StatusInterface
+    {
+        return $this->status;
     }
 
     /**

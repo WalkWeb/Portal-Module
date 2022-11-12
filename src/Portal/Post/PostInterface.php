@@ -7,6 +7,7 @@ namespace Portal\Post;
 use DateTimeInterface;
 use Portal\Post\Author\AuthorInterface;
 use Portal\Post\Rating\RatingInterface;
+use Portal\Post\Status\StatusInterface;
 use Portal\Post\Tag\TagCollection;
 
 /**
@@ -69,6 +70,15 @@ interface PostInterface
     public function setContent(string $content): void;
 
     /**
+     * Возвращает статус поста: обычный, серебряный, золотой, брильянтовый
+     *
+     * По мере роста рейтинга поста он получает новые статусы, а его автор - опыт для аккаунта
+     *
+     * @return StatusInterface
+     */
+    public function getStatus(): StatusInterface;
+
+    /**
      * Возвращает автора поста
      *
      * @return AuthorInterface
@@ -123,8 +133,6 @@ interface PostInterface
      * @return DateTimeInterface|null
      */
     public function getUpdatedAt(): ?DateTimeInterface;
-
-    // TODO PostStatus
 
     // TODO isLiked
 }

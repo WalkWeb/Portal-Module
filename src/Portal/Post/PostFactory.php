@@ -7,6 +7,7 @@ namespace Portal\Post;
 use Exception;
 use Portal\Post\Author\AuthorFactory;
 use Portal\Post\Rating\RatingFactory;
+use Portal\Post\Status\Status;
 use Portal\Post\Tag\TagCollection;
 use Portal\Post\Tag\TagFactory;
 use Portal\Traits\Validation\ValidationTrait;
@@ -37,6 +38,7 @@ class PostFactory
     {
         $title = self::string($data, 'title', PostException::INVALID_TITLE);
         $content = self::string($data, 'content', PostException::INVALID_CONTENT);
+        $statusId = self::int($data, 'status', PostException::INVALID_STATUS);
 
         self::stringMinMaxLength(
             $title,
@@ -67,6 +69,7 @@ class PostFactory
             $title,
             self::string($data, 'slug', PostException::INVALID_SLUG),
             $content,
+            new Status($statusId),
             $this->authorFactory->create($data),
             $this->ratingFactory->create($data),
             self::int($data, 'comments_count', PostException::INVALID_COMMENTS_COUNT),

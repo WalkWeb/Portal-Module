@@ -12,6 +12,7 @@ use Portal\Post\Post;
 use Portal\Post\PostException;
 use Portal\Post\PostInterface;
 use Portal\Post\Rating\Rating;
+use Portal\Post\Status\Status;
 use Portal\Post\Tag\Tag;
 use Portal\Post\Tag\TagCollection;
 use Tests\AbstractUnitTest;
@@ -29,6 +30,7 @@ class PostTest extends AbstractUnitTest
         $title = 'Обработка ошибок и C++';
         $slug = 'obrabotka-oshibok-i-c-123123';
         $content = 'post content';
+        $status = new Status(Status::DEFAULT);
         $author = new Author(
             '4f88c009-6605-4ed9-9ba3-09a92b63bbdb',
             'Name',
@@ -48,6 +50,7 @@ class PostTest extends AbstractUnitTest
             $title,
             $slug,
             $content,
+            $status,
             $author,
             $rating,
             $commentsCount,
@@ -61,6 +64,7 @@ class PostTest extends AbstractUnitTest
         self::assertEquals($title, $post->getTitle());
         self::assertEquals($slug, $post->getSlug());
         self::assertEquals($content, $post->getContent());
+        self::assertEquals($status, $post->getStatus());
         self::assertEquals($author, $post->getAuthor());
         self::assertEquals($rating, $post->getRating());
         self::assertEquals($commentsCount, $post->getCommentsCount());
@@ -203,6 +207,7 @@ class PostTest extends AbstractUnitTest
             'Title',
             'slug',
             'Content',
+            new Status(Status::DEFAULT),
             new Author(
                 '4f88c009-6605-4ed9-9ba3-09a92b63bbdb',
                 'Name',
