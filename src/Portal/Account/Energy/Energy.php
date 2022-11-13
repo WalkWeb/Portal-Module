@@ -8,8 +8,6 @@ class Energy implements EnergyInterface
 {
     private string $id;
 
-    private string $accountId;
-
     private int $energy;
 
     private int $maxEnergy;
@@ -22,10 +20,9 @@ class Energy implements EnergyInterface
 
     private bool $updated = false;
 
-    public function __construct(string $id, string $accountId, int $energy, int $maxEnergy, float $time, float $updatedAt, int $residue)
+    public function __construct(string $id, int $energy, int $maxEnergy, float $time, float $updatedAt, int $residue)
     {
         $this->id = $id;
-        $this->accountId = $accountId;
         $this->energy = $energy;
         $this->maxEnergy = $maxEnergy;
         $this->time = $time;
@@ -61,14 +58,6 @@ class Energy implements EnergyInterface
     public function getId(): string
     {
         return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAccountId(): string
-    {
-        return $this->accountId;
     }
 
     /**

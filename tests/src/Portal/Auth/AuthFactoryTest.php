@@ -38,7 +38,6 @@ class AuthFactoryTest extends AbstractUnitTest
         $exceptedEnergy = $this->getEnergyFactory()->create($data['energy']);
 
         self::assertEquals($exceptedEnergy->getId(), $auth->getEnergy()->getId());
-        self::assertEquals($auth->getId(), $auth->getEnergy()->getAccountId());
         self::assertEquals($exceptedEnergy->getEnergy(), $auth->getEnergy()->getEnergy());
         self::assertEquals($exceptedEnergy->getMaxEnergy(), $auth->getEnergy()->getMaxEnergy());
         self::assertEquals($exceptedEnergy->getUpdatedAt(), $auth->getEnergy()->getUpdatedAt());

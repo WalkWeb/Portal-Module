@@ -44,7 +44,6 @@ class ContainerTest extends AbstractUnitTest
 
         $energy = new Energy(
             '23474820-3e4f-45e3-ba0b-78d202f56ad5',
-            'ec82ec25-3f79-4edc-9e68-b8ceee683870',
             50,
             130,
             microtime(true),

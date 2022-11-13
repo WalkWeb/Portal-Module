@@ -13,8 +13,6 @@ class EnergyException extends Exception
     public const ZERO_VALUE                   = 'No change energy: zero value';
     public const INCORRECT_ENERGY_ID_DATA     = 'EnergyFactory: Incorrect "energy_id" data, excepted string';
     public const INCORRECT_ENERGY_ID_VALUE    = 'EnergyFactory: Incorrect "energy_id", should be min-max length: ';
-    public const INCORRECT_ACCOUNT_ID_DATA    = 'EnergyFactory: Incorrect "account_id" data, excepted string';
-    public const INCORRECT_ACCOUNT_ID_VALUE   = 'EnergyFactory: Incorrect "account_id", should be min-max length: ';
     public const INCORRECT_ENERGY_DATA        = 'EnergyFactory: Incorrect "energy" data, excepted integer';
     public const INCORRECT_ENERGY_VALUE       = 'EnergyFactory: Incorrect "energy", should be min-max length: ';
     public const INCORRECT_ENERGY_BONUS_DATA  = 'EnergyFactory: Incorrect "energy_bonus" data, excepted integer';

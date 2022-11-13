@@ -31,13 +31,6 @@ interface EnergyInterface
     public function getId(): string;
 
     /**
-     * id аккаунта, к которому относится данная энергия
-     *
-     * @return string
-     */
-    public function getAccountId(): string;
-
-    /**
      * Текущая энергия
      *
      * @return int

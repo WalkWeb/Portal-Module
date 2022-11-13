@@ -30,7 +30,6 @@ class AuthTest extends AbstractUnitTest
         $chatStatus = new AccountChatStatus(3);
         $energy = new Energy(
             '8d3af2e4-b706-4956-b59f-6d39526dc6dc',
-            $id,
             100,
             150,
             (float)microtime(true),

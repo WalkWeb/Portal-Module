@@ -57,7 +57,6 @@ class EnergyFactoryTest extends AbstractUnitTest
                 // Вариант с данными по энергии с очень старой датой последнего обновления
                 [
                     'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
-                    'account_id'        => '8a05b239-a9f3-4e01-8c68-99198ab8b17f',
                     'energy'            => 30,
                     'energy_bonus'      => 15,
                     'energy_updated_at' => 1566745426.0000,
@@ -70,7 +69,6 @@ class EnergyFactoryTest extends AbstractUnitTest
                 // Вариант с со свежими данными
                 [
                     'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
-                    'account_id'        => '8a05b239-a9f3-4e01-8c68-99198ab8b17f',
                     'energy'            => 50,
                     'energy_bonus'      => 20,
                     'energy_updated_at' => (float)microtime(true),
@@ -136,55 +134,6 @@ class EnergyFactoryTest extends AbstractUnitTest
                     'energy_residue'    => 10,
                 ],
                 EnergyException::INCORRECT_ENERGY_ID_VALUE . EnergyInterface::ID_MIN_LENGTH . '-' . EnergyInterface::ID_MAX_LENGTH,
-            ],
-
-            // account_id
-            [
-                // account_id отсутствует
-                [
-                    'energy_id'         => '8a05b239-a9f3-4e01-8c68-99198ab8b17f',
-                    'energy'            => 30,
-                    'energy_bonus'      => 15,
-                    'energy_updated_at' => 1566745426.0000,
-                    'energy_residue'    => 10,
-                ],
-                EnergyException::INCORRECT_ACCOUNT_ID_DATA,
-            ],
-            [
-                // account_id некорректного типа
-                [
-                    'energy_id'         => '8a05b239-a9f3-4e01-8c68-99198ab8b17f',
-                    'account_id'        => 100,
-                    'energy'            => 30,
-                    'energy_bonus'      => 15,
-                    'energy_updated_at' => 1566745426.0000,
-                    'energy_residue'    => 10,
-                ],
-                EnergyException::INCORRECT_ACCOUNT_ID_DATA,
-            ],
-            [
-                // account_id меньше минимальный длины
-                [
-                    'energy_id'         => '8a05b239-a9f3-4e01-8c68-99198ab8b17f',
-                    'account_id'        => '4444',
-                    'energy'            => 30,
-                    'energy_bonus'      => 15,
-                    'energy_updated_at' => 1566745426.0000,
-                    'energy_residue'    => 10,
-                ],
-                EnergyException::INCORRECT_ACCOUNT_ID_VALUE . EnergyInterface::ID_MIN_LENGTH . '-' . EnergyInterface::ID_MAX_LENGTH,
-            ],
-            [
-                // account_id больше максимальной длины
-                [
-                    'energy_id'         => '8a05b239-a9f3-4e01-8c68-99198ab8b17f',
-                    'account_id'        => '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
-                    'energy'            => 30,
-                    'energy_bonus'      => 15,
-                    'energy_updated_at' => 1566745426.0000,
-                    'energy_residue'    => 10,
-                ],
-                EnergyException::INCORRECT_ACCOUNT_ID_VALUE . EnergyInterface::ID_MIN_LENGTH . '-' . EnergyInterface::ID_MAX_LENGTH,
             ],
 
             // energy

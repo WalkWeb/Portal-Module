@@ -21,7 +21,6 @@ class EnergyFactory
     public function create(array $data): EnergyInterface
     {
         self::string($data, 'energy_id', EnergyException::INCORRECT_ENERGY_ID_DATA);
-        self::string($data, 'account_id', EnergyException::INCORRECT_ACCOUNT_ID_DATA);
         self::int($data, 'energy', EnergyException::INCORRECT_ENERGY_DATA);
         self::int($data, 'energy_bonus', EnergyException::INCORRECT_ENERGY_BONUS_DATA);
         self::intOrFloat($data, 'energy_updated_at', EnergyException::INCORRECT_UPDATED_AT_DATA);
@@ -32,13 +31,6 @@ class EnergyFactory
             EnergyInterface::ID_MIN_LENGTH,
             EnergyInterface::ID_MAX_LENGTH,
             EnergyException::INCORRECT_ENERGY_ID_VALUE . EnergyInterface::ID_MIN_LENGTH . '-' . EnergyInterface::ID_MAX_LENGTH
-        );
-
-        self::stringMinMaxLength(
-            $data['account_id'],
-            EnergyInterface::ID_MIN_LENGTH,
-            EnergyInterface::ID_MAX_LENGTH,
-            EnergyException::INCORRECT_ACCOUNT_ID_VALUE . EnergyInterface::ID_MIN_LENGTH . '-' . EnergyInterface::ID_MAX_LENGTH
         );
 
         self::intMinMaxValue(
@@ -57,7 +49,6 @@ class EnergyFactory
 
         return new Energy(
             $data['energy_id'],
-            $data['account_id'],
             $data['energy'],
             EnergyInterface::BASE_ENERGY + $data['energy_bonus'],
             (float)microtime(true),

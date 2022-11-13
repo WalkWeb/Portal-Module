@@ -19,17 +19,15 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyCreateUpdatedToFull(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 50;
         $maxEnergy = 100;
         $time = (float)microtime(true);
         $updatedAt = 1566745426.0000;
         $residue = 20;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         self::assertEquals($id, $energy->getId());
-        self::assertEquals($accountId, $energy->getAccountId());
         self::assertEquals($maxEnergy, $energy->getMaxEnergy());
         self::assertEquals($time, $energy->getTime());
         self::assertEquals($updatedAt, $energy->getUpdatedAt());
@@ -54,14 +52,13 @@ class EnergyTest extends AbstractUnitTest
         // Делается несколько проверок с различным сдвигом по времени, чтобы проверить разные варианты округления
         for ($i = 0; $i < 10; $i++) {
             $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-            $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
             $actualEnergy = 50;
             $maxEnergy = 100;
             $time = (float)microtime(true) + $i / 10;
             $updatedAt = (float)microtime(true) + $i / 10;
             $residue = 10;
 
-            $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+            $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
             self::assertEquals($id, $energy->getId());
             self::assertEquals($maxEnergy, $energy->getMaxEnergy());
@@ -81,14 +78,13 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyCreateUpdateResidue(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 100;
         $maxEnergy = 100;
         $time = (float)microtime(true);
         $updatedAt = (float)microtime(true);
         $residue = 10;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         self::assertEquals(0, $energy->getResidue());
     }
@@ -102,14 +98,13 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyCreateCorrectOverMaxEnergy(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 200;
         $maxEnergy = 100;
         $time = (float)microtime(true);
         $updatedAt = (float)microtime(true);
         $residue = 10;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         self::assertEquals($maxEnergy, $energy->getEnergy());
     }
@@ -124,14 +119,13 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyCreateCorrectOverMaxResidue(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 50;
         $maxEnergy = 100;
         $time = (float)microtime(true);
         $updatedAt = (float)microtime(true);
         $residue = 61;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         self::assertEquals(0, $energy->getResidue());
         self::assertEquals($actualEnergy + 1, $energy->getEnergy());
@@ -143,14 +137,13 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyCreateCorrectOverMinResidue(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 50;
         $maxEnergy = 100;
         $time = (float)microtime(true);
         $updatedAt = (float)microtime(true);
         $residue = -100;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         self::assertEquals(0, $energy->getResidue());
         self::assertEquals($actualEnergy, $energy->getEnergy());
@@ -164,7 +157,6 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyEditDefault(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 50;
         $addEnergy = 25;
         $maxEnergy = 80;
@@ -172,7 +164,7 @@ class EnergyTest extends AbstractUnitTest
         $updatedAt = (float)microtime(true);
         $residue = 15;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         $message = $energy->editEnergy($addEnergy);
 
@@ -191,7 +183,6 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyEditToMax(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 50;
         $addEnergy = 75;
         $maxEnergy = 100;
@@ -199,7 +190,7 @@ class EnergyTest extends AbstractUnitTest
         $updatedAt = (float)microtime(true);
         $residue = 10;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         $message = $energy->editEnergy($addEnergy);
 
@@ -216,7 +207,6 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyAddAlreadyMax(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 100;
         $addEnergy = 75;
         $maxEnergy = 100;
@@ -224,7 +214,7 @@ class EnergyTest extends AbstractUnitTest
         $updatedAt = (float)microtime(true);
         $residue = 0;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         try {
             $energy->editEnergy($addEnergy);
@@ -243,7 +233,6 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyNoEnough(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 10;
         $addEnergy = -30;
         $maxEnergy = 100;
@@ -251,7 +240,7 @@ class EnergyTest extends AbstractUnitTest
         $updatedAt = (float)microtime(true);
         $residue = 10;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         try {
             $energy->editEnergy($addEnergy);
@@ -272,7 +261,6 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergySuccessReduced(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 50;
         $addEnergy = -30;
         $maxEnergy = 100;
@@ -280,7 +268,7 @@ class EnergyTest extends AbstractUnitTest
         $updatedAt = (float)microtime(true);
         $residue = 10;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         $message = $energy->editEnergy($addEnergy);
 
@@ -297,7 +285,6 @@ class EnergyTest extends AbstractUnitTest
     public function testEnergyEditZeroValue(): void
     {
         $id = '23474820-3e4f-45e3-ba0b-78d202f56ad5';
-        $accountId = '8a05b239-a9f3-4e01-8c68-99198ab8b17f';
         $actualEnergy = 10;
         $addEnergy = 0;
         $maxEnergy = 100;
@@ -305,7 +292,7 @@ class EnergyTest extends AbstractUnitTest
         $updatedAt = (float)microtime(true);
         $residue = 10;
 
-        $energy = new Energy($id, $accountId, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
+        $energy = new Energy($id, $actualEnergy, $maxEnergy, $time, $updatedAt, $residue);
 
         try {
             $energy->editEnergy($addEnergy);
