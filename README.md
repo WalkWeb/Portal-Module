@@ -44,6 +44,7 @@
 - [x] Container
 - [x] Post
     - [x] Author
+    - [ ] ChangeRating
     - [x] Comment
     - [x] Rating
     - [x] Status
