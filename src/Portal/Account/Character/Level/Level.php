@@ -470,6 +470,26 @@ class Level implements LevelInterface
     }
 
     /**
+     * @param int $addExp
+     * @throws LevelException
+     */
+    public function addExp(int $addExp): void
+    {
+        if ($addExp < 1) {
+            throw new LevelException(LevelException::INVALID_ADD_EXP . ': ' . $addExp);
+        }
+
+        $this->exp += $addExp;
+        $this->setAdditionalParams();
+        $this->increaseLevel();
+
+        // TODO 1. Проверить ситуацию, когда опыта добавляется столько, что новый уровень становится больше максимально
+        // TODO допустимого
+        // TODO 2. Механика добавления stats point за каждый новый полученный уровень
+        // TODO 3. Добавление уведомления о новом уровне
+    }
+
+    /**
      * @return int
      */
     public function getStatPoints(): int
@@ -488,5 +508,20 @@ class Level implements LevelInterface
 
         $this->expToLevel = self::$levelsData[$this->level]['exp_to_lvl'];
         $this->expAtLevel = $this->exp - self::$levelsData[$this->level]['exp_total'];
+    }
+
+    /**
+     * Рекурсивное увеличение уровня по одному, до тех пор, пока хватает опыта для его повышения
+     *
+     * @throws LevelException
+     */
+    private function increaseLevel(): void
+    {
+        if ($this->expAtLevel < $this->expToLevel) {
+            return;
+        }
+        $this->level++;
+        $this->setAdditionalParams();
+        $this->increaseLevel();
     }
 }

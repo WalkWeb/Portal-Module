@@ -61,6 +61,52 @@ class LevelTest extends AbstractUnitTest
     }
 
     /**
+     * Тест на добавление опыта и увеличение уровня
+     *
+     * @throws LevelException
+     */
+    public function testLevelAddExpSuccess(): void
+    {
+        $level = new Level(1, 0, 0);
+
+        self::assertEquals(1, $level->getLevel());
+        self::assertEquals(0, $level->getExp());
+        self::assertEquals(0, $level->getExpAtLevel());
+        self::assertEquals(50, $level->getExpToLevel());
+
+        // Вариант с повышением уровня на 1
+        $level->addExp(50);
+
+        self::assertEquals(2, $level->getLevel());
+        self::assertEquals(50, $level->getExp());
+        self::assertEquals(0, $level->getExpAtLevel());
+        self::assertEquals(130, $level->getExpToLevel());
+
+        // Но опыта может добавиться столько, что будет получено сразу несколько уровней
+        $level->addExp(5000);
+
+        self::assertEquals(9, $level->getLevel());
+        self::assertEquals(5050, $level->getExp());
+        self::assertEquals(980, $level->getExpAtLevel());
+        self::assertEquals(1350, $level->getExpToLevel());
+    }
+
+    /**
+     * Тест на ситуацию, когда добавляется некорректный опыт
+     *
+     * @throws LevelException
+     */
+    public function testLevelAddExpInvalidExp(): void
+    {
+        $level = new Level(1, 0, 0);
+        $addExp = 0;
+
+        $this->expectException(LevelException::class);
+        $this->expectExceptionMessage(LevelException::INVALID_ADD_EXP . ': ' . $addExp);
+        $level->addExp($addExp);
+    }
+
+    /**
      * @return array
      */
     public function createDataProvider(): array
