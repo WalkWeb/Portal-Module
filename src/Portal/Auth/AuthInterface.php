@@ -80,4 +80,7 @@ interface AuthInterface
      * @return NoticeCollection
      */
     public function getNotices(): NoticeCollection;
+
+    // TODO Level
+    // TODO Stat points
 }

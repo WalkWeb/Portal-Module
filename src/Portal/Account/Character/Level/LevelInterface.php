@@ -6,6 +6,10 @@ namespace Portal\Account\Character\Level;
 
 interface LevelInterface
 {
+    // TODO min/max level
+    // TODO min/max exp
+    // TODO min/max stat points
+
     /**
      * Возвращает значение уровня
      *
