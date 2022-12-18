@@ -6,9 +6,14 @@ namespace Portal\Account\Character\Level;
 
 interface LevelInterface
 {
-    // TODO min/max level
-    // TODO min/max exp
-    // TODO min/max stat points
+    public const MIN_LEVEL       = 1;
+    public const MAX_LEVEL       = 100;
+
+    public const MIN_EXP         = 0;
+    public const MAX_EXP         = 2459799; // 2396700 exp_total + 63100 exp_to_lvl - 1
+
+    public const MIN_STAT_POINTS = 0;
+    public const MAX_STAT_POINTS = 495; // 99 уровней * 5 очков на уровень
 
     /**
      * Возвращает значение уровня

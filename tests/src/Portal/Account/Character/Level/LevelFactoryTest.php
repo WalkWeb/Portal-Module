@@ -7,6 +7,7 @@ namespace Tests\src\Portal\Account\Character\Level;
 use Exception;
 use Portal\Account\Character\Level\LevelException;
 use Portal\Account\Character\Level\LevelFactory;
+use Portal\Account\Character\Level\LevelInterface;
 use Portal\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
@@ -118,6 +119,24 @@ class LevelFactoryTest extends AbstractUnitTest
                 ],
                 LevelException::INVALID_LEVEL_DATA,
             ],
+            [
+                // character_level меньше минимального значения
+                [
+                    'character_level'       => LevelInterface::MIN_LEVEL - 1,
+                    'character_exp'         => 0,
+                    'character_stat_points' => 0,
+                ],
+                LevelException::INVALID_LEVEL_VALUE . LevelInterface::MIN_LEVEL . '-' . LevelInterface::MAX_LEVEL,
+            ],
+            [
+                // character_level больше максимального значения
+                [
+                    'character_level'       => LevelInterface::MAX_LEVEL + 1,
+                    'character_exp'         => 0,
+                    'character_stat_points' => 0,
+                ],
+                LevelException::INVALID_LEVEL_VALUE . LevelInterface::MIN_LEVEL . '-' . LevelInterface::MAX_LEVEL,
+            ],
 
             // character_exp
             [
@@ -137,6 +156,24 @@ class LevelFactoryTest extends AbstractUnitTest
                 ],
                 LevelException::INVALID_EXP_DATA,
             ],
+            [
+                // character_exp меньше минимального значения
+                [
+                    'character_level'       => 1,
+                    'character_exp'         => LevelInterface::MIN_EXP - 1,
+                    'character_stat_points' => 0,
+                ],
+                LevelException::INVALID_EXP_VALUE . LevelInterface::MIN_EXP . '-' . LevelInterface::MAX_EXP,
+            ],
+            [
+                // character_exp больше максимального значения
+                [
+                    'character_level'       => 1,
+                    'character_exp'         => LevelInterface::MAX_EXP + 1,
+                    'character_stat_points' => 0,
+                ],
+                LevelException::INVALID_EXP_VALUE . LevelInterface::MIN_EXP . '-' . LevelInterface::MAX_EXP,
+            ],
 
             // character_stat_points
             [
@@ -155,6 +192,24 @@ class LevelFactoryTest extends AbstractUnitTest
                     'character_stat_points' => [0],
                 ],
                 LevelException::INVALID_STAT_POINTS_DATA,
+            ],
+            [
+                // character_stat_points меньше минимального значения
+                [
+                    'character_level'       => 1,
+                    'character_exp'         => 0,
+                    'character_stat_points' => LevelInterface::MIN_STAT_POINTS - 1,
+                ],
+                LevelException::INVALID_STAT_POINTS_VALUE . LevelInterface::MIN_STAT_POINTS . '-' . LevelInterface::MAX_STAT_POINTS,
+            ],
+            [
+                // character_stat_points больше максимального значения
+                [
+                    'character_level'       => 1,
+                    'character_exp'         => 0,
+                    'character_stat_points' => LevelInterface::MAX_STAT_POINTS + 1,
+                ],
+                LevelException::INVALID_STAT_POINTS_VALUE . LevelInterface::MIN_STAT_POINTS . '-' . LevelInterface::MAX_STAT_POINTS,
             ],
         ];
     }
