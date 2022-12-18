@@ -107,6 +107,36 @@ class LevelTest extends AbstractUnitTest
     }
 
     /**
+     * Тест на ситуацию, когда добавляется опыта больше чем 100 уровень и 100% опыта сверху
+     *
+     * Другими словами ситуация, когда уровень должен был бы стать 101, но такой уровень недопустим
+     *
+     * @throws LevelException
+     */
+    public function testLevelAddOverExp(): void
+    {
+        $level = new Level(100, 2396700 + 10000, 0);
+
+        // Имеем 100 уровень и 10000 опыта сверху
+        self::assertEquals(100, $level->getLevel());
+        self::assertEquals(10000, $level->getExpAtLevel());
+
+        // Добавляем 63100 - это ровно столько, сколько нужно для следующего уровня, а учитывая, имеющийся опыт это превышает необходимый
+        $level->addExp(63100);
+
+        // Проверяем, что уровень остался прежним, а до следующего уровня не хватает 1 опыта (и так будет всегда)
+        self::assertEquals(100, $level->getLevel());
+        self::assertEquals(63100 - 1, $level->getExpAtLevel());
+
+        // Пробуем еще раз добавить опыт
+        $level->addExp(1);
+
+        // Результат не изменился
+        self::assertEquals(100, $level->getLevel());
+        self::assertEquals(63100 - 1, $level->getExpAtLevel());
+    }
+
+    /**
      * @return array
      */
     public function createDataProvider(): array
