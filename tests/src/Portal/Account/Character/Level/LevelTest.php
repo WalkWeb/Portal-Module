@@ -6,6 +6,7 @@ namespace Tests\src\Portal\Account\Character\Level;
 
 use Portal\Account\Character\Level\Level;
 use Portal\Account\Character\Level\LevelException;
+use Portal\Account\Character\Level\LevelInterface;
 use Tests\AbstractUnitTest;
 
 class LevelTest extends AbstractUnitTest
@@ -73,6 +74,7 @@ class LevelTest extends AbstractUnitTest
         self::assertEquals(0, $level->getExp());
         self::assertEquals(0, $level->getExpAtLevel());
         self::assertEquals(50, $level->getExpToLevel());
+        self::assertEquals(0, $level->getStatPoints());
 
         // Вариант с повышением уровня на 1
         $level->addExp(50);
@@ -81,6 +83,7 @@ class LevelTest extends AbstractUnitTest
         self::assertEquals(50, $level->getExp());
         self::assertEquals(0, $level->getExpAtLevel());
         self::assertEquals(130, $level->getExpToLevel());
+        self::assertEquals(1 * LevelInterface::ADD_STAT_POINT, $level->getStatPoints());
 
         // Но опыта может добавиться столько, что будет получено сразу несколько уровней
         $level->addExp(5000);
@@ -89,6 +92,7 @@ class LevelTest extends AbstractUnitTest
         self::assertEquals(5050, $level->getExp());
         self::assertEquals(980, $level->getExpAtLevel());
         self::assertEquals(1350, $level->getExpToLevel());
+        self::assertEquals(8 * LevelInterface::ADD_STAT_POINT, $level->getStatPoints());
     }
 
     /**
@@ -120,6 +124,7 @@ class LevelTest extends AbstractUnitTest
         // Имеем 100 уровень и 10000 опыта сверху
         self::assertEquals(100, $level->getLevel());
         self::assertEquals(10000, $level->getExpAtLevel());
+        self::assertEquals(0, $level->getStatPoints());
 
         // Добавляем 63100 - это ровно столько, сколько нужно для следующего уровня, а учитывая, имеющийся опыт это превышает необходимый
         $level->addExp(63100);
@@ -134,6 +139,9 @@ class LevelTest extends AbstractUnitTest
         // Результат не изменился
         self::assertEquals(100, $level->getLevel());
         self::assertEquals(63100 - 1, $level->getExpAtLevel());
+
+        // Проверяем также, что и очков характеристик не добавилось
+        self::assertEquals(0, $level->getStatPoints());
     }
 
     /**

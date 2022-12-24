@@ -489,8 +489,7 @@ class Level implements LevelInterface
         $this->setAdditionalParams();
         $this->increaseLevel();
 
-        // TODO 1. Механика добавления stats point за каждый новый полученный уровень
-        // TODO 2. Добавление уведомления о новом уровне
+        // TODO Добавление уведомления о новом уровне
     }
 
     /**
@@ -525,6 +524,7 @@ class Level implements LevelInterface
             return;
         }
         $this->level++;
+        $this->statPoints += self::ADD_STAT_POINT;
         $this->setAdditionalParams();
         $this->increaseLevel();
     }
