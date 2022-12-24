@@ -73,6 +73,4 @@ interface LevelInterface
      * @return int
      */
     public function getStatPoints(): int;
-
-    // TODO is need save
 }
