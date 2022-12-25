@@ -10,7 +10,8 @@
   "require": {
     "ext-mysqli": "*",
     "ext-json": "*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "ramsey/uuid": "^4.2"
   },
   "autoload": {
     "psr-4": {

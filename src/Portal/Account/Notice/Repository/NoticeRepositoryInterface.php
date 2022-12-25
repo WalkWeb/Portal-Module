@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Portal\Account\Energy;
+namespace Portal\Account\Notice\Repository;
+
+use Portal\Account\Notice\NoticeInterface;
 
 /**
  * Доменная модель ничего не знает и не должна знать о хранилище данных. Здесь представлен лишь требуемый интерфейс для
@@ -11,20 +13,20 @@ namespace Portal\Account\Energy;
  *
  * @package Portal\Account\Energy
  */
-interface EnergyRepositoryInterface
+interface NoticeRepositoryInterface
 {
     /**
-     * Получает данные из базы и создает объект энергии пользователя
+     * Получает данные из базы и создает объект уведомления пользователя
      *
      * @param string $id
-     * @return EnergyInterface
+     * @return NoticeInterface
      */
-    public function get(string $id): EnergyInterface;
+    public function get(string $id): NoticeInterface;
 
     /**
-     * Сохраняет обновленные данные по энергии в базе
+     * Сохраняет обновленные данные по уведомлению в базе
      *
-     * @param EnergyInterface $energy
+     * @param NoticeInterface $notice
      */
-    public function save(EnergyInterface $energy): void;
+    public function save(NoticeInterface $notice): void;
 }
