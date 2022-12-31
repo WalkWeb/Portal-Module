@@ -6,16 +6,22 @@ namespace Portal\Account\Character\Level;
 
 interface LevelInterface
 {
-    public const MIN_LEVEL       = 1;
-    public const MAX_LEVEL       = 100;
+    public const ACCOUNT_ID_MIN_LENGTH   = 5;
+    public const ACCOUNT_ID_MAX_LENGTH   = 36;
 
-    public const MIN_EXP         = 0;
-    public const MAX_EXP         = 2459799; // 2396700 exp_total + 63100 exp_to_lvl - 1
+    public const CHARACTER_ID_MIN_LENGTH = 5;
+    public const CHARACTER_ID_MAX_LENGTH = 36;
 
-    public const MIN_STAT_POINTS = 0;
-    public const MAX_STAT_POINTS = 495; // 99 уровней * 5 очков на уровень
+    public const MIN_LEVEL               = 1;
+    public const MAX_LEVEL               = 100;
 
-    public const ADD_STAT_POINT  = 5; // количество добавляемых очков характеристик на каждый новый уровень
+    public const MIN_EXP                 = 0;
+    public const MAX_EXP                 = 2459799; // 2396700 exp_total + 63100 exp_to_lvl - 1
+
+    public const MIN_STAT_POINTS         = 0;
+    public const MAX_STAT_POINTS         = 495; // 99 уровней * 5 очков на уровень
+
+    public const ADD_STAT_POINT          = 5; // количество добавляемых очков характеристик на каждый новый уровень
 
     /**
      * @return string

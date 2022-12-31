@@ -104,7 +104,8 @@ class LevelFactoryTest extends AbstractUnitTest
     }
 
     /**
-     * @return array
+     * @return array[]
+     * @throws Exception
      */
     public function failDataProvider(): array
     {
@@ -131,9 +132,31 @@ class LevelFactoryTest extends AbstractUnitTest
                 ],
                 LevelException::INVALID_ACCOUNT_ID_DATA,
             ],
+            [
+                // account_id меньше минимальной длины
+                [
+                    'account_id'            => self::generateString(LevelInterface::ACCOUNT_ID_MIN_LENGTH - 1),
+                    'character_id'          => '2f3de667-d5a4-48c8-bcbf-b9a2b3257719',
+                    'character_level'       => 1,
+                    'character_exp'         => 25,
+                    'character_stat_points' => 3,
+                ],
+                LevelException::INVALID_ACCOUNT_ID_VALUE . LevelInterface::ACCOUNT_ID_MIN_LENGTH . '-' . LevelInterface::ACCOUNT_ID_MAX_LENGTH,
+            ],
+            [
+                // account_id больше максимальной длины
+                [
+                    'account_id'            => self::generateString(LevelInterface::ACCOUNT_ID_MAX_LENGTH + 1),
+                    'character_id'          => '2f3de667-d5a4-48c8-bcbf-b9a2b3257719',
+                    'character_level'       => 1,
+                    'character_exp'         => 25,
+                    'character_stat_points' => 3,
+                ],
+                LevelException::INVALID_ACCOUNT_ID_VALUE . LevelInterface::ACCOUNT_ID_MIN_LENGTH . '-' . LevelInterface::ACCOUNT_ID_MAX_LENGTH,
+            ],
             // character_id
             [
-                // Отсутствует account_id
+                // Отсутствует character_id
                 [
                     'account_id'            => 'cafc3584-74ea-4fba-bbc3-205bde3697d0',
                     'character_level'       => 1,
@@ -143,7 +166,7 @@ class LevelFactoryTest extends AbstractUnitTest
                 LevelException::INVALID_CHARACTER_ID_DATA,
             ],
             [
-                // account_id некорректного типа
+                // character_id некорректного типа
                 [
                     'account_id'            => 'cafc3584-74ea-4fba-bbc3-205bde3697d0',
                     'character_id'          => 100,
@@ -152,6 +175,28 @@ class LevelFactoryTest extends AbstractUnitTest
                     'character_stat_points' => 3,
                 ],
                 LevelException::INVALID_CHARACTER_ID_DATA,
+            ],
+            [
+                // character_id меньше минимальной длины
+                [
+                    'account_id'            => 'cafc3584-74ea-4fba-bbc3-205bde3697d0',
+                    'character_id'          => self::generateString(LevelInterface::CHARACTER_ID_MIN_LENGTH - 1),
+                    'character_level'       => 1,
+                    'character_exp'         => 25,
+                    'character_stat_points' => 3,
+                ],
+                LevelException::INVALID_CHARACTER_ID_VALUE . LevelInterface::ACCOUNT_ID_MIN_LENGTH . '-' . LevelInterface::ACCOUNT_ID_MAX_LENGTH,
+            ],
+            [
+                // character_id больше максимальной длины
+                [
+                    'account_id'            => 'cafc3584-74ea-4fba-bbc3-205bde3697d0',
+                    'character_id'          => self::generateString(LevelInterface::CHARACTER_ID_MAX_LENGTH + 1),
+                    'character_level'       => 1,
+                    'character_exp'         => 25,
+                    'character_stat_points' => 3,
+                ],
+                LevelException::INVALID_CHARACTER_ID_VALUE . LevelInterface::CHARACTER_ID_MIN_LENGTH . '-' . LevelInterface::CHARACTER_ID_MAX_LENGTH,
             ],
             // character_level
             [
