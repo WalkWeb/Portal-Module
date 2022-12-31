@@ -10,6 +10,8 @@ class LevelException extends Exception
 {
     public const INVALID_LEVEL             = 'Invalid level';
     public const INVALID_ADD_EXP           = 'Invalid add exp';
+    public const INVALID_ACCOUNT_ID_DATA   = 'LevelException: Incorrect parameter "account_id", it required and type string';
+    public const INVALID_CHARACTER_ID_DATA = 'LevelException: Incorrect parameter "character_id", it required and type string';
     public const INVALID_LEVEL_DATA        = 'LevelException: Incorrect parameter "character_level", it required and type integer';
     public const INVALID_LEVEL_VALUE       = 'LevelException: Incorrect "character_level", should be min-max value: ';
     public const INVALID_EXP_DATA          = 'LevelException: Incorrect parameter "character_exp", it required and type integer';

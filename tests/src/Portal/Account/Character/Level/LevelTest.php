@@ -15,6 +15,8 @@ class LevelTest extends AbstractUnitTest
      * Тест на создание объекта Level
      *
      * @dataProvider createDataProvider
+     * @param string $accountId
+     * @param string $characterId
      * @param int $levelValue
      * @param int $exp
      * @param int $statPoints
@@ -24,6 +26,8 @@ class LevelTest extends AbstractUnitTest
      * @throws LevelException
      */
     public function testLevelCreate(
+        string $accountId,
+        string $characterId,
         int $levelValue,
         int $exp,
         int $statPoints,
@@ -32,9 +36,11 @@ class LevelTest extends AbstractUnitTest
         int $expectedExpBarWeight
     ): void
     {
-        $level = new Level($levelValue, $exp, $statPoints);
+        $level = new Level($accountId, $characterId, $levelValue, $exp, $statPoints);
 
         // Параметры, которые указываются напрямую
+        self::assertEquals($accountId, $level->getAccountId());
+        self::assertEquals($characterId, $level->getCharacterId());
         self::assertEquals($levelValue, $level->getLevel());
         self::assertEquals($exp, $level->getExp());
         self::assertEquals($statPoints, $level->getStatPoints());
@@ -58,7 +64,13 @@ class LevelTest extends AbstractUnitTest
 
         $this->expectException(LevelException::class);
         $this->expectExceptionMessage(LevelException::INVALID_LEVEL . ': ' . $level);
-        new Level($level, 500, 10);
+        new Level(
+            '3544c1bc-8757-47db-9998-6f14522b5252',
+            '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
+            $level,
+            500,
+            10
+        );
     }
 
     /**
@@ -68,7 +80,12 @@ class LevelTest extends AbstractUnitTest
      */
     public function testLevelAddExpSuccess(): void
     {
-        $level = new Level(1, 0, 0);
+        $level = new Level(
+            '3544c1bc-8757-47db-9998-6f14522b5252',
+            '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
+            1,
+            0, 0
+        );
 
         self::assertEquals(1, $level->getLevel());
         self::assertEquals(0, $level->getExp());
@@ -102,7 +119,13 @@ class LevelTest extends AbstractUnitTest
      */
     public function testLevelAddExpInvalidExp(): void
     {
-        $level = new Level(1, 0, 0);
+        $level = new Level(
+            '3544c1bc-8757-47db-9998-6f14522b5252',
+            '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
+            1,
+            0,
+            0
+        );
         $addExp = 0;
 
         $this->expectException(LevelException::class);
@@ -119,7 +142,13 @@ class LevelTest extends AbstractUnitTest
      */
     public function testLevelAddOverExp(): void
     {
-        $level = new Level(100, 2396700 + 10000, 0);
+        $level = new Level(
+            '3544c1bc-8757-47db-9998-6f14522b5252',
+            '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
+            100,
+            2396700 + 10000,
+            0
+        );
 
         // Имеем 100 уровень и 10000 опыта сверху
         self::assertEquals(100, $level->getLevel());
@@ -151,6 +180,8 @@ class LevelTest extends AbstractUnitTest
     {
         return [
             [
+                '3d465469-c544-4f99-9d5a-fa57c666e434',
+                'a16bdcb8-7c8a-4743-bd99-23883fe77778',
                 1,
                 0,
                 0,
@@ -159,6 +190,8 @@ class LevelTest extends AbstractUnitTest
                 0,
             ],
             [
+                '3d465469-c544-4f99-9d5a-fa57c666e434',
+                'a16bdcb8-7c8a-4743-bd99-23883fe77778',
                 1,
                 25,
                 3,
@@ -167,6 +200,8 @@ class LevelTest extends AbstractUnitTest
                 50,
             ],
             [
+                '3d465469-c544-4f99-9d5a-fa57c666e434',
+                'a16bdcb8-7c8a-4743-bd99-23883fe77778',
                 45,
                 296400,
                 0,

@@ -16,12 +16,16 @@ class LevelFactory
      *
      * TODO Подумать над тем, имеет ли смысл проверки на min/max значение разместить внутри класса Level
      *
+     * TODO Добавить проверку на min/max длину account_id и character_id
+     *
      * @param array $data
      * @return LevelInterface
      * @throws Exception
      */
     public function create(array $data): LevelInterface
     {
+        $accountId = self::string($data, 'account_id', LevelException::INVALID_ACCOUNT_ID_DATA);
+        $characterId = self::string($data, 'character_id', LevelException::INVALID_CHARACTER_ID_DATA);
         $level = self::int($data, 'character_level', LevelException::INVALID_LEVEL_DATA);
         $exp = self::int($data, 'character_exp', LevelException::INVALID_EXP_DATA);
         $statPoints = self::int($data, 'character_stat_points', LevelException::INVALID_STAT_POINTS_DATA);
@@ -47,6 +51,6 @@ class LevelFactory
             LevelException::INVALID_STAT_POINTS_VALUE . LevelInterface::MIN_STAT_POINTS . '-' . LevelInterface::MAX_STAT_POINTS
         );
 
-        return new Level($level, $exp, $statPoints);
+        return new Level($accountId, $characterId, $level, $exp, $statPoints);
     }
 }

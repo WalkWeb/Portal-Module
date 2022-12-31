@@ -6,6 +6,8 @@ namespace Portal\Account\Character\Level;
 
 class Level implements LevelInterface
 {
+    private string $accountId;
+    private string $characterId;
     private int $level;
     private int $exp;
     private int $expToLevel;
@@ -416,17 +418,37 @@ class Level implements LevelInterface
     ];
 
     /**
+     * @param string $accountId
+     * @param string $characterId
      * @param int $level
      * @param int $exp
      * @param int $statPoints
      * @throws LevelException
      */
-    public function __construct(int $level, int $exp, int $statPoints)
+    public function __construct(string $accountId, string $characterId, int $level, int $exp, int $statPoints)
     {
+        $this->accountId = $accountId;
+        $this->characterId = $characterId;
         $this->level = $level;
         $this->exp = $exp;
         $this->statPoints = $statPoints;
         $this->setAdditionalParams();
+    }
+
+    /**
+     * @return string
+     */
+    public function getAccountId(): string
+    {
+        return $this->accountId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCharacterId(): string
+    {
+        return $this->characterId;
     }
 
     /**

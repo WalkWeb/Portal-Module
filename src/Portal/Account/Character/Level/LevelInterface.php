@@ -17,8 +17,15 @@ interface LevelInterface
 
     public const ADD_STAT_POINT  = 5; // количество добавляемых очков характеристик на каждый новый уровень
 
-    // TODO Объект Level должен уметь создаваться и без объекта Character и быть самодостаточным, т.е. нужны
-    // TODO characterId и accountId
+    /**
+     * @return string
+     */
+    public function getAccountId(): string;
+
+    /**
+     * @return string
+     */
+    public function getCharacterId(): string;
 
     /**
      * Возвращает значение уровня
