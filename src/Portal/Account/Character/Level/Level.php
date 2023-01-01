@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Portal\Account\Character\Level;
 
+use Exception;
+use Portal\Account\Notice\Action\SendNoticeActionInterface;
+
 class Level implements LevelInterface
 {
     private string $accountId;
@@ -13,6 +16,7 @@ class Level implements LevelInterface
     private int $expToLevel;
     private int $expAtLevel;
     private int $statPoints;
+    private SendNoticeActionInterface $sendNoticeAction;
 
     private static array $levelsData = [
         1   => [
@@ -423,15 +427,24 @@ class Level implements LevelInterface
      * @param int $level
      * @param int $exp
      * @param int $statPoints
+     * @param SendNoticeActionInterface $sendNoticeAction
      * @throws LevelException
      */
-    public function __construct(string $accountId, string $characterId, int $level, int $exp, int $statPoints)
+    public function __construct(
+        string $accountId,
+        string $characterId,
+        int $level,
+        int $exp,
+        int $statPoints,
+        SendNoticeActionInterface $sendNoticeAction
+    )
     {
         $this->accountId = $accountId;
         $this->characterId = $characterId;
         $this->level = $level;
         $this->exp = $exp;
         $this->statPoints = $statPoints;
+        $this->sendNoticeAction = $sendNoticeAction;
         $this->setAdditionalParams();
     }
 
@@ -493,7 +506,7 @@ class Level implements LevelInterface
 
     /**
      * @param int $addExp
-     * @throws LevelException
+     * @throws Exception
      */
     public function addExp(int $addExp): void
     {
@@ -510,8 +523,6 @@ class Level implements LevelInterface
 
         $this->setAdditionalParams();
         $this->increaseLevel();
-
-        // TODO Добавление уведомления о новом уровне
     }
 
     /**
@@ -538,7 +549,7 @@ class Level implements LevelInterface
     /**
      * Рекурсивное увеличение уровня по одному, до тех пор, пока хватает опыта для его повышения
      *
-     * @throws LevelException
+     * @throws Exception
      */
     private function increaseLevel(): void
     {
@@ -549,5 +560,6 @@ class Level implements LevelInterface
         $this->statPoints += self::ADD_STAT_POINT;
         $this->setAdditionalParams();
         $this->increaseLevel();
+        $this->sendNoticeAction->send($this->accountId, self::NEW_LEVEL_MESSAGE);
     }
 }

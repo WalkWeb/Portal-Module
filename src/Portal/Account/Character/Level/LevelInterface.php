@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Portal\Account\Character\Level;
 
+use Exception;
+
 interface LevelInterface
 {
     public const ACCOUNT_ID_MIN_LENGTH   = 5;
@@ -22,6 +24,8 @@ interface LevelInterface
     public const MAX_STAT_POINTS         = 495; // 99 уровней * 5 очков на уровень
 
     public const ADD_STAT_POINT          = 5; // количество добавляемых очков характеристик на каждый новый уровень
+
+    public const NEW_LEVEL_MESSAGE       = 'Congratulations, you have reached a new level!';
 
     /**
      * @return string
@@ -75,7 +79,7 @@ interface LevelInterface
      * stat points
      *
      * @param int $addExp
-     * @throws LevelException
+     * @throws Exception
      */
     public function addExp(int $addExp): void;
 

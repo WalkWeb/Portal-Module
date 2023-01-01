@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Portal\Account\Character\Level;
 
 use Exception;
+use Portal\Account\Notice\Action\SendNoticeActionInterface;
 use Portal\Traits\Validation\ValidationTrait;
 
 class LevelFactory
@@ -17,10 +18,11 @@ class LevelFactory
      * TODO Подумать над тем, имеет ли смысл проверки на min/max значение разместить внутри класса Level
      *
      * @param array $data
+     * @param SendNoticeActionInterface $sendNoticeAction
      * @return LevelInterface
      * @throws Exception
      */
-    public function create(array $data): LevelInterface
+    public function create(array $data, SendNoticeActionInterface $sendNoticeAction): LevelInterface
     {
         $accountId = self::string($data, 'account_id', LevelException::INVALID_ACCOUNT_ID_DATA);
         $characterId = self::string($data, 'character_id', LevelException::INVALID_CHARACTER_ID_DATA);
@@ -63,6 +65,6 @@ class LevelFactory
             LevelException::INVALID_STAT_POINTS_VALUE . LevelInterface::MIN_STAT_POINTS . '-' . LevelInterface::MAX_STAT_POINTS
         );
 
-        return new Level($accountId, $characterId, $level, $exp, $statPoints);
+        return new Level($accountId, $characterId, $level, $exp, $statPoints, $sendNoticeAction);
     }
 }

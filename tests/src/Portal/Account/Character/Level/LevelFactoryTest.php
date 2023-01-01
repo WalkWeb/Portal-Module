@@ -8,8 +8,10 @@ use Exception;
 use Portal\Account\Character\Level\LevelException;
 use Portal\Account\Character\Level\LevelFactory;
 use Portal\Account\Character\Level\LevelInterface;
+use Portal\Account\Notice\Action\SendNoticeAction;
 use Portal\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
+use Tests\src\Mock\Account\Notice\Repository\MockNoticeRepository;
 
 class LevelFactoryTest extends AbstractUnitTest
 {
@@ -30,7 +32,7 @@ class LevelFactoryTest extends AbstractUnitTest
         int $expectedExpBarWeight
     ): void
     {
-        $level = $this->getFactory()->create($data);
+        $level = $this->getFactory()->create($data, new SendNoticeAction(new MockNoticeRepository()));
 
         self::assertEquals($data['account_id'], $level->getAccountId());
         self::assertEquals($data['character_id'], $level->getCharacterId());
@@ -55,7 +57,7 @@ class LevelFactoryTest extends AbstractUnitTest
     {
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage($error);
-        $this->getFactory()->create($data);
+        $this->getFactory()->create($data, new SendNoticeAction(new MockNoticeRepository()));
     }
 
     /**

@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace Tests\src\Portal\Account\Character\Level;
 
+use Exception;
 use Portal\Account\Character\Level\Level;
 use Portal\Account\Character\Level\LevelException;
 use Portal\Account\Character\Level\LevelInterface;
+use Portal\Account\Notice\Action\SendNoticeAction;
+use Portal\Account\Notice\NoticeInterface;
+use ReflectionClass;
 use Tests\AbstractUnitTest;
+use Tests\src\Mock\Account\Notice\Repository\MockNoticeRepository;
 
 class LevelTest extends AbstractUnitTest
 {
@@ -23,7 +28,7 @@ class LevelTest extends AbstractUnitTest
      * @param int $expectedExpToLevel
      * @param int $expectedExpAtLevel
      * @param int $expectedExpBarWeight
-     * @throws LevelException
+     * @throws Exception
      */
     public function testLevelCreate(
         string $accountId,
@@ -36,7 +41,14 @@ class LevelTest extends AbstractUnitTest
         int $expectedExpBarWeight
     ): void
     {
-        $level = new Level($accountId, $characterId, $levelValue, $exp, $statPoints);
+        $level = new Level(
+            $accountId,
+            $characterId,
+            $levelValue,
+            $exp,
+            $statPoints,
+            new SendNoticeAction(new MockNoticeRepository())
+        );
 
         // Параметры, которые указываются напрямую
         self::assertEquals($accountId, $level->getAccountId());
@@ -56,7 +68,7 @@ class LevelTest extends AbstractUnitTest
     /**
      * Тест на ситуацию, когда указан некорректный (отсутствующий в данных внутри класса Level) уровень
      *
-     * @throws LevelException
+     * @throws Exception
      */
     public function testLevelInvalid(): void
     {
@@ -69,22 +81,24 @@ class LevelTest extends AbstractUnitTest
             '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
             $level,
             500,
-            10
+            10,
+            new SendNoticeAction(new MockNoticeRepository())
         );
     }
 
     /**
      * Тест на добавление опыта и увеличение уровня
      *
-     * @throws LevelException
+     * @throws Exception
      */
     public function testLevelAddExpSuccess(): void
     {
         $level = new Level(
-            '3544c1bc-8757-47db-9998-6f14522b5252',
+            $accountId = '3544c1bc-8757-47db-9998-6f14522b5252',
             '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
             1,
-            0, 0
+            0, 0,
+            new SendNoticeAction($noticeRepository = new MockNoticeRepository())
         );
 
         self::assertEquals(1, $level->getLevel());
@@ -110,12 +124,28 @@ class LevelTest extends AbstractUnitTest
         self::assertEquals(980, $level->getExpAtLevel());
         self::assertEquals(1350, $level->getExpToLevel());
         self::assertEquals(8 * LevelInterface::ADD_STAT_POINT, $level->getStatPoints());
+
+        // Проверяем наличие уведомлений
+        $reflectionClass = new ReflectionClass($noticeRepository);
+        $reflectionProperty = $reflectionClass->getProperty('notices');
+        $reflectionProperty->setAccessible(true);
+
+        $notices = $reflectionProperty->getValue($noticeRepository);
+
+        self::assertCount(8, $notices);
+
+        /** @var NoticeInterface $notice */
+        foreach ($notices as $notice) {
+            self::assertEquals($accountId, $notice->getAccountId());
+            self::assertEquals(LevelInterface::NEW_LEVEL_MESSAGE, $notice->getMessage());
+            self::assertEquals(NoticeInterface::TYPE_INFO, $notice->getType());
+        }
     }
 
     /**
      * Тест на ситуацию, когда добавляется некорректный опыт
      *
-     * @throws LevelException
+     * @throws Exception
      */
     public function testLevelAddExpInvalidExp(): void
     {
@@ -124,7 +154,8 @@ class LevelTest extends AbstractUnitTest
             '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
             1,
             0,
-            0
+            0,
+            new SendNoticeAction(new MockNoticeRepository())
         );
         $addExp = 0;
 
@@ -138,7 +169,7 @@ class LevelTest extends AbstractUnitTest
      *
      * Другими словами ситуация, когда уровень должен был бы стать 101, но такой уровень недопустим
      *
-     * @throws LevelException
+     * @throws Exception
      */
     public function testLevelAddOverExp(): void
     {
@@ -147,7 +178,8 @@ class LevelTest extends AbstractUnitTest
             '556d9249-5f5f-47d4-b41c-ca580f6c5e23',
             100,
             2396700 + 10000,
-            0
+            0,
+            new SendNoticeAction(new MockNoticeRepository())
         );
 
         // Имеем 100 уровень и 10000 опыта сверху
