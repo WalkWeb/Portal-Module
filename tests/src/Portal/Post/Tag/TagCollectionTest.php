@@ -36,7 +36,7 @@ class TagCollectionTest extends AbstractUnitTest
             'stati',
             'icon-2.png',
             '59f2a61c-09bb-4187-8cff-f4efa0557a30',
-            true
+            false
         );
 
         $collection->add($tag1);
@@ -54,8 +54,29 @@ class TagCollectionTest extends AbstractUnitTest
             }
             $i++;
         }
-    }
 
+        self::assertEquals(
+            [
+                [
+                    'id'              => '16cb7f25-37b6-49d0-bd0d-13cd75bc71f8',
+                    'name'            => 'новости',
+                    'slug'            => 'novosti',
+                    'icon'            => 'icon-1.png',
+                    'preview_post_id' => '59f2a61c-09bb-4187-8cff-f4efa0557a30',
+                    'approved'        => true,
+                ],
+                [
+                    'id'              => 'ca6758e4-6087-49d7-b6c0-7c0c9f6ad79e',
+                    'name'            => 'статьи',
+                    'slug'            => 'stati',
+                    'icon'            => 'icon-2.png',
+                    'preview_post_id' => '59f2a61c-09bb-4187-8cff-f4efa0557a30',
+                    'approved'        => false,
+                ],
+            ],
+            $collection->toArray()
+        );
+    }
 
     /**
      * Тест на ситуацию, когда в коллекцию добавляется гет, который в ней уже существует

@@ -6,9 +6,10 @@ namespace Portal\Post\Tag;
 
 use Countable;
 use Iterator;
+use Portal\Pieces\Interfaces\ArrayableInterface;
 use Portal\Pieces\Traits\CollectionTrait;
 
-class TagCollection implements Iterator, Countable
+class TagCollection implements Iterator, Countable, ArrayableInterface
 {
     use CollectionTrait;
 
@@ -36,5 +37,19 @@ class TagCollection implements Iterator, Countable
     public function current(): TagInterface
     {
         return current($this->elements);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $array = [];
+
+        foreach ($this as $tag) {
+            $array[] = $tag->toArray();
+        }
+
+        return $array;
     }
 }
