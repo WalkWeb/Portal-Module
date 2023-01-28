@@ -191,4 +191,32 @@ class Post implements PostInterface
     {
         return $this->updatedAt;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id'               => $this->id,
+            'title'            => $this->title,
+            'slug'             => $this->slug,
+            'content'          => $this->content,
+            // TODO status лучше заменить на status_id, и тоже самое сделать в фабрике которая создает Post
+            'status'           => $this->status->getId(),
+            'rating'           => $this->rating->getRating(),
+            'likes'            => $this->rating->getLikes(),
+            'dislikes'         => $this->rating->getDislikes(),
+            'comments_count'   => $this->commentsCount,
+            'published'        => $this->published,
+            'created_at'       => $this->createdAt->format('Y-m-d H:i:s'),
+            'updated_at'       => $this->updatedAt ? $this->updatedAt->format('Y-m-d H:i:s') : null,
+            'tags'             => $this->tags->toArray(),
+            'author_id'        => $this->author->getId(),
+            'author_name'      => $this->author->getName(),
+            'author_avatar'    => $this->author->getAvatar(),
+            'author_level'     => $this->author->getLevel(),
+            'author_status_id' => $this->author->getStatus()->getId(),
+        ];
+    }
 }

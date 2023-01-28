@@ -47,6 +47,30 @@ class PostFactoryTest extends AbstractUnitTest
         } else {
             self::assertNull($post->getUpdatedAt());
         }
+
+        self::assertEquals(
+            [
+                "id"               => $data['id'],
+                "title"            => $data['title'],
+                "slug"             => $data['slug'],
+                "content"          => $data['content'],
+                "status"           => $data['status'],
+                "rating"           => $data['rating'],
+                "likes"            => $data['likes'],
+                "dislikes"         => $data['dislikes'],
+                "comments_count"   => $data['comments_count'],
+                "published"        => $data['published'],
+                "created_at"       => $data['created_at'],
+                "updated_at"       => $data['updated_at'],
+                "tags"             => $data['tags'],
+                "author_id"        => $data['author_id'],
+                "author_name"      => $data['author_name'],
+                "author_avatar"    => $data['author_avatar'],
+                "author_level"     => $data['author_level'],
+                "author_status_id" => $data['author_status_id'],
+            ],
+            $post->toArray()
+        );
     }
 
     /**

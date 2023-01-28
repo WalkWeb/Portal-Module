@@ -7,12 +7,14 @@ namespace Tests\src\Portal\Post;
 use DateTime;
 use Exception;
 use Portal\Account\Status\AccountStatus;
+use Portal\Account\Status\AccountStatusInterface;
 use Portal\Post\Author\Author;
 use Portal\Post\Post;
 use Portal\Post\PostException;
 use Portal\Post\PostInterface;
 use Portal\Post\Rating\Rating;
 use Portal\Post\Status\Status;
+use Portal\Post\Status\StatusInterface;
 use Portal\Post\Tag\Tag;
 use Portal\Post\Tag\TagCollection;
 use Tests\AbstractUnitTest;
@@ -30,15 +32,15 @@ class PostTest extends AbstractUnitTest
         $title = 'Обработка ошибок и C++';
         $slug = 'obrabotka-oshibok-i-c-123123';
         $content = 'post content';
-        $status = new Status(Status::DEFAULT);
+        $status = new Status(StatusInterface::DEFAULT);
         $author = new Author(
             '4f88c009-6605-4ed9-9ba3-09a92b63bbdb',
             'Name',
             'avatar.png',
             15,
-            new AccountStatus(1)
+            new AccountStatus(AccountStatusInterface::ACTIVE)
         );
-        $rating = new Rating(10, 12, -2);
+        $rating = new Rating($rationValue = 10, $likes = 12, $dislikes = -2);
         $commentsCount = 12;
         $published = true;
         $tags = new TagCollection();
@@ -72,6 +74,30 @@ class PostTest extends AbstractUnitTest
         self::assertEquals($tags, $post->getTags());
         self::assertEquals($createdAt, $post->getCreatedAt());
         self::assertEquals($updatedAt, $post->getUpdatedAt());
+
+        self::assertEquals(
+            [
+                "id"               => $id,
+                "title"            => $title,
+                "slug"             => $slug,
+                "content"          => $content,
+                "status"           => StatusInterface::DEFAULT,
+                "rating"           => $rationValue,
+                "likes"            => $likes,
+                "dislikes"         => $dislikes,
+                "comments_count"   => $commentsCount,
+                "published"        => $published,
+                "created_at"       => $createdAt->format('Y-m-d H:i:s'),
+                "updated_at"       => $updatedAt,
+                "tags"             => $tags->toArray(),
+                "author_id"        => $author->getId(),
+                "author_name"      => $author->getName(),
+                "author_avatar"    => $author->getAvatar(),
+                "author_level"     => $author->getLevel(),
+                "author_status_id" => AccountStatusInterface::ACTIVE,
+            ],
+            $post->toArray()
+        );
     }
 
     /**

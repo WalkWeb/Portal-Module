@@ -29,6 +29,18 @@ class TagFactoryTest extends AbstractUnitTest
         self::assertEquals($data['icon'], $tag->getIcon());
         self::assertEquals($data['preview_post_id'], $tag->getPreviewPostId());
         self::assertEquals($data['approved'], $tag->isApproved());
+
+        self::assertEquals(
+            [
+                'id'              => $data['id'],
+                'name'            => $data['name'],
+                'slug'            => $data['slug'],
+                'icon'            => $data['icon'],
+                'preview_post_id' => $data['preview_post_id'],
+                'approved'        => $data['approved'],
+            ],
+            $tag->toArray()
+        );
     }
 
     /**

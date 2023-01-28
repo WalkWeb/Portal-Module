@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Portal\Post;
 
 use DateTimeInterface;
+use Portal\Pieces\Interfaces\ArrayableInterface;
 use Portal\Post\Author\AuthorInterface;
 use Portal\Post\Rating\RatingInterface;
 use Portal\Post\Status\StatusInterface;
@@ -18,7 +19,7 @@ use Portal\Post\Tag\TagCollection;
  *
  * @package Portal\Post
  */
-interface PostInterface
+interface PostInterface extends ArrayableInterface
 {
     public const TITLE_MIN_LENGTH   = 2;
     public const TITLE_MAX_LENGTH   = 80;
