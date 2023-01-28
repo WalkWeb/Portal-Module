@@ -77,4 +77,19 @@ class Tag implements TagInterface
     {
         return $this->approved;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id'              => $this->id,
+            'name'            => $this->name,
+            'slug'            => $this->slug,
+            'icon'            => $this->icon,
+            'preview_post_id' => $this->previewPostId,
+            'approved'        => $this->approved,
+        ];
+    }
 }

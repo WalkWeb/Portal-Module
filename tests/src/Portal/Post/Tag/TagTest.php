@@ -26,5 +26,17 @@ class TagTest extends AbstractUnitTest
         self::assertEquals($icon, $tag->getIcon());
         self::assertEquals($previewPostId, $tag->getPreviewPostId());
         self::assertEquals($approved, $tag->isApproved());
+
+        self::assertEquals(
+            [
+                'id'              => $id,
+                'name'            => $name,
+                'slug'            => $slug,
+                'icon'            => $icon,
+                'preview_post_id' => $previewPostId,
+                'approved'        => $approved,
+            ],
+            $tag->toArray()
+        );
     }
 }

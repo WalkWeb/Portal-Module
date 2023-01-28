@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Portal\Post\Tag;
 
-interface TagInterface
+use Portal\Pieces\Interfaces\ArrayableInterface;
+
+interface TagInterface extends ArrayableInterface
 {
     /**
      * Возвращает id тега
