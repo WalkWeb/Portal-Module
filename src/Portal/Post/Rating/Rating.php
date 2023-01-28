@@ -10,10 +10,9 @@ class Rating implements RatingInterface
     private int $likes;
     private int $dislikes;
 
-    // TODO Rating можно удалить из конструктора, и считать на ходу из суммы likes и dislikes
-    public function __construct(int $rating, int $likes, int $dislikes)
+    public function __construct(int $likes, int $dislikes)
     {
-        $this->rating = $rating;
+        $this->rating = $likes + $dislikes;
         $this->likes = $likes;
         $this->dislikes = $dislikes;
     }

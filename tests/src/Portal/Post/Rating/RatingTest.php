@@ -14,16 +14,15 @@ class RatingTest extends AbstractUnitTest
      * Тест на успешное создание объекта Rating
      *
      * @dataProvider createDataProvider
-     * @param int $ratingValue
      * @param int $likes
      * @param int $dislikes
      * @param string $expectedColorClass
      */
-    public function testRatingCreate(int $ratingValue, int $likes, int $dislikes, string $expectedColorClass): void
+    public function testRatingCreate(int $likes, int $dislikes, string $expectedColorClass): void
     {
-        $rating = new Rating($ratingValue, $likes, $dislikes);
+        $rating = new Rating($likes, $dislikes);
 
-        self::assertEquals($ratingValue, $rating->getRating());
+        self::assertEquals($likes + $dislikes, $rating->getRating());
         self::assertEquals($likes, $rating->getLikes());
         self::assertEquals($dislikes, $rating->getDislikes());
         self::assertEquals($expectedColorClass, $rating->getColorClass());
@@ -38,17 +37,14 @@ class RatingTest extends AbstractUnitTest
             [
                 0,
                 0,
-                0,
                 RatingInterface::DEFAULT_CLASS_COLOR
             ],
             [
-                10,
                 15,
                 -5,
                 RatingInterface::POSITIVE_CLASS_COLOR
             ],
             [
-                -80,
                 20,
                 -100,
                 RatingInterface::NEGATIVE_CLASS_COLOR

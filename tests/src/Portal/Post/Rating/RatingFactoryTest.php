@@ -24,7 +24,7 @@ class RatingFactoryTest extends AbstractUnitTest
     {
         $rating = $this->getFactory()->create($data);
 
-        self::assertEquals($data['rating'], $rating->getRating());
+        self::assertEquals($data['likes'] + $data['dislikes'], $rating->getRating());
         self::assertEquals($data['likes'], $rating->getLikes());
         self::assertEquals($data['dislikes'], $rating->getDislikes());
         self::assertEquals($expectedClassRating, $rating->getColorClass());
@@ -52,7 +52,6 @@ class RatingFactoryTest extends AbstractUnitTest
         return [
             [
                 [
-                    'rating'   => 0,
                     'likes'    => 0,
                     'dislikes' => 0,
                 ],
@@ -60,7 +59,6 @@ class RatingFactoryTest extends AbstractUnitTest
             ],
             [
                 [
-                    'rating'   => 10,
                     'likes'    => 15,
                     'dislikes' => -5,
                 ],
@@ -68,7 +66,6 @@ class RatingFactoryTest extends AbstractUnitTest
             ],
             [
                 [
-                    'rating'   => -80,
                     'likes'    => 20,
                     'dislikes' => -100,
                 ],
@@ -83,23 +80,6 @@ class RatingFactoryTest extends AbstractUnitTest
     public function failDataProvider(): array
     {
         return [
-            // Отсутствует rating
-            [
-                [
-                    'likes'    => 0,
-                    'dislikes' => 0,
-                ],
-                RatingException::INVALID_RATING
-            ],
-            // rating некорректного типа
-            [
-                [
-                    'rating'   => '0',
-                    'likes'    => 0,
-                    'dislikes' => 0,
-                ],
-                RatingException::INVALID_RATING
-            ],
             // Отсутствует likes
             [
                 [

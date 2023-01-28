@@ -21,7 +21,6 @@ class RatingFactory
     public function create(array $data): RatingInterface
     {
         return new Rating(
-            self::int($data, 'rating', RatingException::INVALID_RATING),
             self::int($data, 'likes', RatingException::INVALID_LIKES),
             self::int($data, 'dislikes', RatingException::INVALID_DISLIKES)
         );
