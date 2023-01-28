@@ -6,7 +6,7 @@ namespace Portal\Post\Tag;
 
 use Countable;
 use Iterator;
-use Portal\Traits\CollectionTrait;
+use Portal\Pieces\Traits\CollectionTrait;
 
 class TagCollection implements Iterator, Countable
 {

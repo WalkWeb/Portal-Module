@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Portal\Traits\Validation;
+namespace Portal\Pieces\Traits\Validation;
 
 use Exception;
 

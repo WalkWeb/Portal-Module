@@ -6,7 +6,7 @@ namespace Tests\src\Portal\Chat\User;
 
 use Portal\Chat\User\ChatUserException;
 use Portal\Chat\User\ChatUserFactory;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
 class ChatUserFactoryTest extends AbstractUnitTest

@@ -7,7 +7,7 @@ namespace Tests\src\Portal\Account\Energy;
 use Portal\Account\Energy\EnergyException;
 use Portal\Account\Energy\EnergyFactory;
 use Portal\Account\Energy\EnergyInterface;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
 class EnergyFactoryTest extends AbstractUnitTest

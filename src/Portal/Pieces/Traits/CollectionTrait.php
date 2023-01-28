@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Portal\Traits;
+namespace Portal\Pieces\Traits;
 
 /**
  * Вспомогательный trait для создания собственных коллекций со строгой типизацией - коллекций, которые на добавление

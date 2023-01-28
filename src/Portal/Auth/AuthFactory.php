@@ -11,7 +11,7 @@ use Portal\Account\Group\AccountGroup;
 use Portal\Account\Notice\NoticeCollection;
 use Portal\Account\Notice\NoticeFactory;
 use Portal\Account\Status\AccountStatus;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class AuthFactory
 {

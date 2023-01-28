@@ -6,7 +6,7 @@ namespace Portal\Account\Notice;
 
 use Countable;
 use Iterator;
-use Portal\Traits\CollectionTrait;
+use Portal\Pieces\Traits\CollectionTrait;
 
 class NoticeCollection implements Iterator, Countable
 {

@@ -6,7 +6,7 @@ namespace Portal\Post\Comment;
 
 use Countable;
 use Iterator;
-use Portal\Traits\CollectionTrait;
+use Portal\Pieces\Traits\CollectionTrait;
 
 class CommentCollection implements Iterator, Countable
 {

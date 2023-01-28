@@ -6,7 +6,7 @@ namespace Tests\src\Portal\Post\Tag;
 
 use Portal\Post\Tag\TagException;
 use Portal\Post\Tag\TagFactory;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use SplObjectStorage;
 use Tests\AbstractUnitTest;
 

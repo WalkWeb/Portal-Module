@@ -6,7 +6,7 @@ namespace Portal\Chat\User;
 
 use Countable;
 use Iterator;
-use Portal\Traits\CollectionTrait;
+use Portal\Pieces\Traits\CollectionTrait;
 
 class ChatUserCollection implements Iterator, Countable
 {

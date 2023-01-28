@@ -9,7 +9,7 @@ use Portal\Account\Character\Level\LevelException;
 use Portal\Account\Character\Level\LevelFactory;
 use Portal\Account\Character\Level\LevelInterface;
 use Portal\Account\Notice\Action\SendNoticeAction;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 use Tests\src\Mock\Account\Notice\Repository\MockNoticeRepository;
 

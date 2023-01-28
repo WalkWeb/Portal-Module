@@ -6,7 +6,7 @@ namespace Portal\Account\Character\Level;
 
 use Exception;
 use Portal\Account\Notice\Action\SendNoticeActionInterface;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class LevelFactory
 {

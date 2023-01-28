@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Portal\Post\Tag;
 
-use Portal\Traits\Validation\ValidationException;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class TagFactory
 {

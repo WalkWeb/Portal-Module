@@ -8,7 +8,7 @@ use Exception;
 use Portal\Post\Comment\CommentException;
 use Portal\Post\Comment\CommentFactory;
 use Portal\Post\Comment\CommentInterface;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
 class CommentFactoryTest extends AbstractUnitTest

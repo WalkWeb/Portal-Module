@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Portal\Account\Energy;
 
-use Portal\Traits\Validation\ValidationException;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class EnergyFactory
 {

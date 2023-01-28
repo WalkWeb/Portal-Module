@@ -6,8 +6,8 @@ namespace Portal\Post\Author;
 
 use Portal\Account\AccountException;
 use Portal\Account\Status\AccountStatus;
-use Portal\Traits\Validation\ValidationException;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class AuthorFactory
 {

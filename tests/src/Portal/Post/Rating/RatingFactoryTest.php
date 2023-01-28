@@ -7,7 +7,7 @@ namespace Tests\src\Portal\Post\Rating;
 use Portal\Post\Rating\RatingException;
 use Portal\Post\Rating\RatingFactory;
 use Portal\Post\Rating\RatingInterface;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
 class RatingFactoryTest extends AbstractUnitTest

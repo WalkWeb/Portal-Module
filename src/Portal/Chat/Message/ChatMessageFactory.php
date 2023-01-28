@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Portal\Chat\Message;
 
 use Portal\Chat\User\ChatUserFactory;
-use Portal\Traits\Validation\ValidationException;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class ChatMessageFactory
 {

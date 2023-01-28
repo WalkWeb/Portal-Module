@@ -10,7 +10,7 @@ use Portal\Post\Rating\RatingFactory;
 use Portal\Post\Status\Status;
 use Portal\Post\Tag\TagCollection;
 use Portal\Post\Tag\TagFactory;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class PostFactory
 {

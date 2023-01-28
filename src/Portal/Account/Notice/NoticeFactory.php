@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Portal\Account\Notice;
 
 use Exception;
-use Portal\Traits\Validation\ValidationTrait;
+use Portal\Pieces\Traits\Validation\ValidationTrait;
 
 class NoticeFactory
 {

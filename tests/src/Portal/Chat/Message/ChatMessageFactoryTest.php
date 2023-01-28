@@ -9,7 +9,7 @@ use Portal\Chat\Message\ChatMessageException;
 use Portal\Chat\Message\ChatMessageFactory;
 use Portal\Chat\Message\ChatMessageInterface;
 use Portal\Chat\User\ChatUserFactory;
-use Portal\Traits\Validation\ValidationException;
+use Portal\Pieces\Traits\Validation\ValidationException;
 use Tests\AbstractUnitTest;
 
 class ChatMessageFactoryTest extends AbstractUnitTest
