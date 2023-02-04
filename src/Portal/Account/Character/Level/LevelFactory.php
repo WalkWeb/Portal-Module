@@ -15,8 +15,6 @@ class LevelFactory
     /**
      * Создает объект Level на основе массива с параметрами
      *
-     * TODO Подумать над тем, имеет ли смысл проверки на min/max значение разместить внутри класса Level
-     *
      * @param array $data
      * @param SendNoticeActionInterface $sendNoticeAction
      * @return LevelInterface

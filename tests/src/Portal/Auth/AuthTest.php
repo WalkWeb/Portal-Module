@@ -38,8 +38,9 @@ class AuthTest extends AbstractUnitTest
         );
         $canLike = true;
         $notices = new NoticeCollection();
+        $level = 15;
 
-        $auth = new Auth($id, $name, $avatar, $group, $status, $chatStatus, $energy, $canLike, $notices);
+        $auth = new Auth($id, $name, $avatar, $group, $status, $chatStatus, $energy, $canLike, $notices, $level);
 
         self::assertEquals($id, $auth->getId());
         self::assertEquals($name, $auth->getName());
@@ -49,5 +50,6 @@ class AuthTest extends AbstractUnitTest
         self::assertEquals($chatStatus, $auth->getChatStatus());
         self::assertEquals($energy, $auth->getEnergy());
         self::assertEquals($canLike, $auth->isCanLike());
+        self::assertEquals($level, $auth->getLevel());
     }
 }

@@ -81,6 +81,13 @@ interface AuthInterface
      */
     public function getNotices(): NoticeCollection;
 
-    // TODO Level
+    /**
+     * Часть функционала становится доступной только при достижении определенного уровня, соответственно в данных по
+     * авторизации необходимо иметь уровень персонажа
+     *
+     * @return int
+     */
+    public function getLevel(): int;
+
     // TODO Stat points
 }
