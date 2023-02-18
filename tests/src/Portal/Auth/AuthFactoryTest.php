@@ -6,7 +6,6 @@ namespace Tests\src\Portal\Auth;
 
 use Exception;
 use Portal\Account\Character\Level\LevelInterface;
-use Portal\Account\ChatStatus\AccountChatStatus;
 use Portal\Account\Energy\EnergyFactory;
 use Portal\Account\Group\AccountGroup;
 use Portal\Account\Notice\NoticeFactory;
@@ -33,7 +32,6 @@ class AuthFactoryTest extends AbstractUnitTest
         self::assertEquals($data['avatar'], $auth->getAvatar());
         self::assertEquals(new AccountGroup($data['account_group_id']), $auth->getGroup());
         self::assertEquals(new AccountStatus($data['account_status_id']), $auth->getStatus());
-        self::assertEquals(new AccountChatStatus($data['account_chat_status_id']), $auth->getChatStatus());
         self::assertEquals($data['can_like'], $auth->isCanLike());
         self::assertEquals($data['level'], $auth->getLevel());
 
@@ -88,7 +86,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -135,7 +132,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -158,7 +154,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -180,7 +175,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -203,7 +197,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -225,7 +218,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'name'                   => 'AccountName',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -248,7 +240,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => ['account_avatar.png'],
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -270,7 +261,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'name'                   => 'AccountName',
                     'avatar'                 => 'account_avatar.png',
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -293,7 +283,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 'success',
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -315,7 +304,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'name'                   => 'AccountName',
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -338,7 +326,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => '1',
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -354,51 +341,6 @@ class AuthFactoryTest extends AbstractUnitTest
                 AuthException::INVALID_ACCOUNT_STATUS_ID,
             ],
             [
-                // отсутствует account_chat_status_id
-                [
-                    'id'                => '68435c80-eb31-4756-a260-a00900e5db9f',
-                    'name'              => 'AccountName',
-                    'avatar'            => 'account_avatar.png',
-                    'account_group_id'  => 10,
-                    'account_status_id' => 1,
-                    'energy'            => [
-                        'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
-                        'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
-                        'energy'            => 30,
-                        'energy_bonus'      => 15,
-                        'energy_updated_at' => 1566745426.0000,
-                        'energy_residue'    => 10,
-                    ],
-                    'can_like'          => true,
-                    'notices'           => [],
-                    'level'                  => 12,
-                ],
-                AuthException::INVALID_ACCOUNT_CHAT_STATUS_ID,
-            ],
-            [
-                // account_chat_status_id некорректного типа
-                [
-                    'id'                     => '68435c80-eb31-4756-a260-a00900e5db9f',
-                    'name'                   => 'AccountName',
-                    'avatar'                 => 'account_avatar.png',
-                    'account_group_id'       => 10,
-                    'account_status_id'      => 1,
-                    'account_chat_status_id' => '3',
-                    'energy'                 => [
-                        'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
-                        'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
-                        'energy'            => 30,
-                        'energy_bonus'      => 15,
-                        'energy_updated_at' => 1566745426.0000,
-                        'energy_residue'    => 10,
-                    ],
-                    'can_like'               => true,
-                    'notices'                => [],
-                    'level'                  => 12,
-                ],
-                AuthException::INVALID_ACCOUNT_CHAT_STATUS_ID,
-            ],
-            [
                 // отсутствует energy
                 [
                     'id'                     => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -406,7 +348,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'can_like'               => true,
                     'notices'                => [],
                     'level'                  => 12,
@@ -421,7 +362,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => 100,
                     'can_like'               => true,
                     'notices'                => [],
@@ -437,7 +377,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -459,7 +398,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -483,7 +421,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -506,7 +443,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -530,7 +466,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -557,7 +492,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -580,7 +514,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -604,7 +537,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',
@@ -628,7 +560,6 @@ class AuthFactoryTest extends AbstractUnitTest
                     'avatar'                 => 'account_avatar.png',
                     'account_group_id'       => 10,
                     'account_status_id'      => 1,
-                    'account_chat_status_id' => 3,
                     'energy'                 => [
                         'energy_id'         => 'f0c4391a-f16a-4a22-80fb-ac0a02168b1f',
                         'account_id'        => '68435c80-eb31-4756-a260-a00900e5db9f',

@@ -6,7 +6,6 @@ namespace Portal\Auth;
 
 use Exception;
 use Portal\Account\Character\Level\LevelInterface;
-use Portal\Account\ChatStatus\AccountChatStatus;
 use Portal\Account\Energy\EnergyFactory;
 use Portal\Account\Group\AccountGroup;
 use Portal\Account\Notice\NoticeCollection;
@@ -41,7 +40,6 @@ class AuthFactory
         self::string($data, 'avatar', AuthException::INVALID_AVATAR);
         self::int($data, 'account_group_id', AuthException::INVALID_ACCOUNT_GROUP_ID);
         self::int($data, 'account_status_id', AuthException::INVALID_ACCOUNT_STATUS_ID);
-        self::int($data, 'account_chat_status_id', AuthException::INVALID_ACCOUNT_CHAT_STATUS_ID);
         self::array($data, 'energy', AuthException::INVALID_ENERGY_DATA);
         self::bool($data, 'can_like', AuthException::INVALID_CAN_LIKE);
         self::array($data, 'notices', AuthException::INVALID_NOTICES_DATA);
@@ -70,7 +68,6 @@ class AuthFactory
             $data['avatar'],
             new AccountGroup($data['account_group_id']),
             new AccountStatus($data['account_status_id']),
-            new AccountChatStatus($data['account_chat_status_id']),
             $this->energyFactory->create($data['energy']),
             $data['can_like'],
             $notices,

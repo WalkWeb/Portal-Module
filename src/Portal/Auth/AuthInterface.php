@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Portal\Auth;
 
-use Portal\Account\ChatStatus\ChatStatusInterface;
 use Portal\Account\Energy\EnergyInterface;
 use Portal\Account\Group\AccountGroupInterface;
 use Portal\Account\Notice\NoticeCollection;
@@ -52,13 +51,6 @@ interface AuthInterface
      * @return AccountStatusInterface
      */
     public function getStatus(): AccountStatusInterface;
-
-    /**
-     * Статуса пользователя в чате
-     *
-     * @return ChatStatusInterface
-     */
-    public function getChatStatus(): ChatStatusInterface;
 
     /**
      * Возвращает энергию пользователя

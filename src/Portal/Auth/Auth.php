@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Portal\Auth;
 
-use Portal\Account\ChatStatus\ChatStatusInterface;
 use Portal\Account\Energy\EnergyInterface;
 use Portal\Account\Group\AccountGroupInterface;
 use Portal\Account\Notice\NoticeCollection;
@@ -17,7 +16,6 @@ class Auth implements AuthInterface
     private string $avatar;
     private AccountGroupInterface $group;
     private AccountStatusInterface $status;
-    private ChatStatusInterface $chatStatus;
     private EnergyInterface $energy;
     private bool $canLike;
     private NoticeCollection $notices;
@@ -29,7 +27,6 @@ class Auth implements AuthInterface
         string $avatar,
         AccountGroupInterface $group,
         AccountStatusInterface $status,
-        ChatStatusInterface $chatStatus,
         EnergyInterface $energy,
         bool $canLike,
         NoticeCollection $notices,
@@ -41,7 +38,6 @@ class Auth implements AuthInterface
         $this->avatar = $avatar;
         $this->group = $group;
         $this->status = $status;
-        $this->chatStatus = $chatStatus;
         $this->energy = $energy;
         $this->canLike = $canLike;
         $this->notices = $notices;
@@ -86,14 +82,6 @@ class Auth implements AuthInterface
     public function getStatus(): AccountStatusInterface
     {
         return $this->status;
-    }
-
-    /**
-     * @return ChatStatusInterface
-     */
-    public function getChatStatus(): ChatStatusInterface
-    {
-        return $this->chatStatus;
     }
 
     /**
