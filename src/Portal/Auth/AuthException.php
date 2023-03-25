@@ -19,4 +19,5 @@ class AuthException extends Exception
     public const INVALID_NOTICE_DATA            = 'Incorrect notice data, excepted array';
     public const INVALID_LEVEL                  = 'Incorrect "level" data, excepted int';
     public const INVALID_LEVEL_VALUE            = 'Incorrect "level" data, excepted int';
+    public const INVALID_STAT_POINTS            = 'Incorrect "stat_points" data, excepted int';
 }

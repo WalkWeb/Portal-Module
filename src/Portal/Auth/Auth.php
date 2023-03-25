@@ -20,6 +20,7 @@ class Auth implements AuthInterface
     private bool $canLike;
     private NoticeCollection $notices;
     private int $level;
+    private int $statPoints;
 
     public function __construct(
         string $id,
@@ -30,7 +31,8 @@ class Auth implements AuthInterface
         EnergyInterface $energy,
         bool $canLike,
         NoticeCollection $notices,
-        int $level
+        int $level,
+        int $statPoints
     )
     {
         $this->id = $id;
@@ -42,6 +44,7 @@ class Auth implements AuthInterface
         $this->canLike = $canLike;
         $this->notices = $notices;
         $this->level = $level;
+        $this->statPoints = $statPoints;
     }
 
     /**
@@ -114,5 +117,15 @@ class Auth implements AuthInterface
     public function getLevel(): int
     {
         return $this->level;
+    }
+
+    public function getStatPoints(): int
+    {
+        return $this->statPoints;
+    }
+
+    public function setStatPoints(int $statPoints): void
+    {
+        $this->statPoints = $statPoints;
     }
 }

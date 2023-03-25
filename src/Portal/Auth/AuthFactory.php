@@ -44,6 +44,7 @@ class AuthFactory
         self::bool($data, 'can_like', AuthException::INVALID_CAN_LIKE);
         self::array($data, 'notices', AuthException::INVALID_NOTICES_DATA);
         self::int($data, 'level', AuthException::INVALID_LEVEL);
+        self::int($data, 'stat_points', AuthException::INVALID_STAT_POINTS);
 
         self::intMinMaxValue(
             $data['level'],
@@ -72,6 +73,7 @@ class AuthFactory
             $data['can_like'],
             $notices,
             $data['level'],
+            $data['stat_points'],
         );
     }
 }

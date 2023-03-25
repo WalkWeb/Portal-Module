@@ -81,5 +81,13 @@ interface AuthInterface
      */
     public function getLevel(): int;
 
-    // TODO Stat points
+    /**
+     * @return int
+     */
+    public function getStatPoints(): int;
+
+    /**
+     * @param int $statPoints
+     */
+    public function setStatPoints(int $statPoints): void;
 }

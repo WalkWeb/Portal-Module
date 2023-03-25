@@ -37,8 +37,9 @@ class AuthTest extends AbstractUnitTest
         $canLike = true;
         $notices = new NoticeCollection();
         $level = 15;
+        $statPoints = 10;
 
-        $auth = new Auth($id, $name, $avatar, $group, $status, $energy, $canLike, $notices, $level);
+        $auth = new Auth($id, $name, $avatar, $group, $status, $energy, $canLike, $notices, $level, $statPoints);
 
         self::assertEquals($id, $auth->getId());
         self::assertEquals($name, $auth->getName());
@@ -48,5 +49,40 @@ class AuthTest extends AbstractUnitTest
         self::assertEquals($energy, $auth->getEnergy());
         self::assertEquals($canLike, $auth->isCanLike());
         self::assertEquals($level, $auth->getLevel());
+        self::assertEquals($statPoints, $auth->getStatPoints());
+    }
+
+    /**
+     * Тест на установку нового значения statPoints
+     *
+     * @throws AccountException
+     */
+    public function testAuthSetStatPoints(): void
+    {
+        $auth = new Auth(
+            'abc',
+            'name',
+            'avatar',
+            new AccountGroup(10),
+            new AccountStatus(2),
+            new Energy(
+                '8d3af2e4-b706-4956-b59f-6d39526dc6dc',
+                100,
+                150,
+                (float)microtime(true),
+                (float)microtime(true),
+                0
+            ),
+            true,
+            new NoticeCollection(),
+            5,
+            $statPoints = 0
+        );
+
+        self::assertEquals($statPoints, $auth->getStatPoints());
+
+        $auth->setStatPoints($newStatPoints = 5);
+
+        self::assertEquals($newStatPoints, $auth->getStatPoints());
     }
 }
