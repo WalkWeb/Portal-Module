@@ -9,12 +9,14 @@ class Rating implements RatingInterface
     private int $rating;
     private int $likes;
     private int $dislikes;
+    private int $userReaction;
 
-    public function __construct(int $likes, int $dislikes)
+    public function __construct(int $likes, int $dislikes, int $userReaction)
     {
         $this->rating = $likes + $dislikes;
         $this->likes = $likes;
         $this->dislikes = $dislikes;
+        $this->userReaction = $userReaction;
     }
 
     /**
@@ -55,5 +57,21 @@ class Rating implements RatingInterface
         }
 
         return self::NEGATIVE_CLASS_COLOR;
+    }
+
+    /**
+     * @return bool
+     */
+    public function existUserReaction(): bool
+    {
+        return $this->userReaction !== 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserReaction(): int
+    {
+        return $this->userReaction;
     }
 }

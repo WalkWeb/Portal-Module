@@ -40,7 +40,7 @@ class PostTest extends AbstractUnitTest
             15,
             new AccountStatus(AccountStatusInterface::ACTIVE)
         );
-        $rating = new Rating($likes = 12, $dislikes = -2);
+        $rating = new Rating($likes = 12, $dislikes = -2, $userReaction = 0);
         $commentsCount = 12;
         $published = true;
         $tags = new TagCollection();
@@ -84,6 +84,7 @@ class PostTest extends AbstractUnitTest
                 "status"           => StatusInterface::DEFAULT,
                 "likes"            => $likes,
                 "dislikes"         => $dislikes,
+                "user_reaction"    => $userReaction,
                 "comments_count"   => $commentsCount,
                 "published"        => $published,
                 "created_at"       => $createdAt->format('Y-m-d H:i:s'),
@@ -240,7 +241,7 @@ class PostTest extends AbstractUnitTest
                 15,
                 new AccountStatus(1)
             ),
-            new Rating(0, 0),
+            new Rating(0, 0, 0),
             0,
             false,
             new TagCollection(),

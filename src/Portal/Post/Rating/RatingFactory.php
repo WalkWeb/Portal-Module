@@ -22,7 +22,8 @@ class RatingFactory
     {
         return new Rating(
             self::int($data, 'likes', RatingException::INVALID_LIKES),
-            self::int($data, 'dislikes', RatingException::INVALID_DISLIKES)
+            self::int($data, 'dislikes', RatingException::INVALID_DISLIKES),
+            self::int($data, 'user_reaction', RatingException::INVALID_USER_REACTION)
         );
     }
 }

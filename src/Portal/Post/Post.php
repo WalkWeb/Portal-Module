@@ -206,6 +206,7 @@ class Post implements PostInterface
             'status'           => $this->status->getId(),
             'likes'            => $this->rating->getLikes(),
             'dislikes'         => $this->rating->getDislikes(),
+            'user_reaction'    => $this->rating->getUserReaction(),
             'comments_count'   => $this->commentsCount,
             'published'        => $this->published,
             'created_at'       => $this->createdAt->format('Y-m-d H:i:s'),
