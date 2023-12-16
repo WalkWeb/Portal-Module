@@ -202,8 +202,7 @@ class Post implements PostInterface
             'title'            => $this->title,
             'slug'             => $this->slug,
             'content'          => $this->content,
-            // TODO status лучше заменить на status_id, и тоже самое сделать в фабрике которая создает Post
-            'status'           => $this->status->getId(),
+            'status_id'        => $this->status->getId(),
             'likes'            => $this->rating->getLikes(),
             'dislikes'         => $this->rating->getDislikes(),
             'user_reaction'    => $this->rating->getUserReaction(),

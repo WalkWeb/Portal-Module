@@ -38,7 +38,7 @@ class PostFactory
     {
         $title = self::string($data, 'title', PostException::INVALID_TITLE);
         $content = self::string($data, 'content', PostException::INVALID_CONTENT);
-        $statusId = self::int($data, 'status', PostException::INVALID_STATUS);
+        $statusId = self::int($data, 'status_id', PostException::INVALID_STATUS_ID);
 
         self::stringMinMaxLength(
             $title,

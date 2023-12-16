@@ -81,7 +81,7 @@ class PostTest extends AbstractUnitTest
                 "title"            => $title,
                 "slug"             => $slug,
                 "content"          => $content,
-                "status"           => StatusInterface::DEFAULT,
+                "status_id"        => StatusInterface::DEFAULT,
                 "likes"            => $likes,
                 "dislikes"         => $dislikes,
                 "user_reaction"    => $userReaction,
