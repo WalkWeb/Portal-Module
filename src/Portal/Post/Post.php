@@ -22,6 +22,7 @@ class Post implements PostInterface
     private int $commentsCount;
     private bool $published;
     private TagCollection $tags;
+    private bool $isLiked;
     private DateTimeInterface $createdAt;
     private ?DateTimeInterface $updatedAt;
 
@@ -36,6 +37,7 @@ class Post implements PostInterface
         int $commentsCount,
         bool $published,
         TagCollection $collection,
+        bool $isLiked,
         DateTimeInterface $createdAt,
         ?DateTimeInterface $updatedAt = null
     )
@@ -50,6 +52,7 @@ class Post implements PostInterface
         $this->commentsCount = $commentsCount;
         $this->published = $published;
         $this->tags = $collection;
+        $this->isLiked = $isLiked;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
@@ -177,6 +180,14 @@ class Post implements PostInterface
     }
 
     /**
+     * @return bool
+     */
+    public function isLiked(): bool
+    {
+        return $this->isLiked;
+    }
+
+    /**
      * @return DateTimeInterface
      */
     public function getCreatedAt(): DateTimeInterface
@@ -208,14 +219,15 @@ class Post implements PostInterface
             'user_reaction'    => $this->rating->getUserReaction(),
             'comments_count'   => $this->commentsCount,
             'published'        => $this->published,
-            'created_at'       => $this->createdAt->format('Y-m-d H:i:s'),
-            'updated_at'       => $this->updatedAt ? $this->updatedAt->format('Y-m-d H:i:s') : null,
             'tags'             => $this->tags->toArray(),
+            'is_liked'         => $this->isLiked(),
             'author_id'        => $this->author->getId(),
             'author_name'      => $this->author->getName(),
             'author_avatar'    => $this->author->getAvatar(),
             'author_level'     => $this->author->getLevel(),
             'author_status_id' => $this->author->getStatus()->getId(),
+            'created_at'       => $this->createdAt->format('Y-m-d H:i:s'),
+            'updated_at'       => $this->updatedAt ? $this->updatedAt->format('Y-m-d H:i:s') : null,
         ];
     }
 }

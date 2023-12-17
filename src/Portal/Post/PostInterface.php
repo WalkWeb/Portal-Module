@@ -122,6 +122,13 @@ interface PostInterface extends ArrayableInterface
     public function setTags(TagCollection $tags): void;
 
     /**
+     * Лайкал/дизлайкал ли авторизованный пользователь данный пост. Если пользователь не авторизован - вернет false
+     *
+     * @return bool
+     */
+    public function isLiked(): bool;
+
+    /**
      * Возвращает дату создания поста
      *
      * @return DateTimeInterface
@@ -134,6 +141,4 @@ interface PostInterface extends ArrayableInterface
      * @return DateTimeInterface|null
      */
     public function getUpdatedAt(): ?DateTimeInterface;
-
-    // TODO isLiked
 }

@@ -44,6 +44,7 @@ class PostTest extends AbstractUnitTest
         $commentsCount = 12;
         $published = true;
         $tags = new TagCollection();
+        $isLiked = true;
         $createdAt = new DateTime('2019-08-12 14:46:02');
         $updatedAt = null;
 
@@ -58,6 +59,7 @@ class PostTest extends AbstractUnitTest
             $commentsCount,
             $published,
             $tags,
+            $isLiked,
             $createdAt,
             $updatedAt
         );
@@ -72,6 +74,7 @@ class PostTest extends AbstractUnitTest
         self::assertEquals($commentsCount, $post->getCommentsCount());
         self::assertEquals($published, $post->isPublished());
         self::assertEquals($tags, $post->getTags());
+        self::assertEquals($isLiked, $post->isLiked());
         self::assertEquals($createdAt, $post->getCreatedAt());
         self::assertEquals($updatedAt, $post->getUpdatedAt());
 
@@ -87,14 +90,15 @@ class PostTest extends AbstractUnitTest
                 "user_reaction"    => $userReaction,
                 "comments_count"   => $commentsCount,
                 "published"        => $published,
-                "created_at"       => $createdAt->format('Y-m-d H:i:s'),
-                "updated_at"       => $updatedAt,
                 "tags"             => $tags->toArray(),
+                "is_liked"         => $isLiked,
                 "author_id"        => $author->getId(),
                 "author_name"      => $author->getName(),
                 "author_avatar"    => $author->getAvatar(),
                 "author_level"     => $author->getLevel(),
                 "author_status_id" => AccountStatusInterface::ACTIVE,
+                "created_at"       => $createdAt->format('Y-m-d H:i:s'),
+                "updated_at"       => $updatedAt,
             ],
             $post->toArray()
         );
@@ -245,6 +249,7 @@ class PostTest extends AbstractUnitTest
             0,
             false,
             new TagCollection(),
+            false,
             new DateTime()
         );
     }
